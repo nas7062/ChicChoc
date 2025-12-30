@@ -1,6 +1,7 @@
 import Header from "@/app/components/Header";
 import Banner from "./_components/Banner";
 import Category from "../components/Category";
+import ItemList from "../components/ItemList";
 
 export default function DefaultHeaderLayout({
   children,
@@ -12,6 +13,7 @@ export default function DefaultHeaderLayout({
       <Header />
       <Banner />
       <Category />
+      <ItemList />
       {children}
     </div>
   );
