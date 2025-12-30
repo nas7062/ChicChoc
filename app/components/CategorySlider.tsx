@@ -20,14 +20,14 @@ export function CategorySlider({ category }: Props) {
           category.map((cate, index) => (
             <CarouselItem key={index} className="pl-1  basis-1/4">
               <div className="p-1">
-                <Card className="w-24 h-24 rounded-full p-0 overflow-hidden cursor-pointer group">
+                <Card className="w-20 h-20 rounded-full p-0 overflow-hidden cursor-pointer group">
                   <CardContent className="relative w-full h-full p-0 flex items-center justify-center">
                     <Image
                       src={cate.image ?? "/logo.jpg"}
                       alt={cate.label}
                       fill
                       className="object-cover scale-y-115 scale-x-150 group-hover:scale-160 transition-transform duration-250"
-                      sizes="96px"
+                      sizes="80px"
                       priority
                     />
                     <span className="group relative z-10 text-black/40 font-bold text-xl ">
