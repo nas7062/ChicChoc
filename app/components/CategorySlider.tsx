@@ -15,7 +15,7 @@ interface Props {
 export function CategorySlider({ category }: Props) {
   return (
     <Carousel className="w-full max-w-xl">
-      <CarouselContent className="ml-10">
+      <CarouselContent className="ml-2 sm:ml-10">
         {category &&
           category.map((cate, index) => (
             <CarouselItem key={index} className="pl-1  basis-1/4">
@@ -39,8 +39,8 @@ export function CategorySlider({ category }: Props) {
             </CarouselItem>
           ))}
       </CarouselContent>
-      <CarouselPrevious className="-left-1" />
-      <CarouselNext className="-right-8" />
+      <CarouselPrevious className="hidden sm:block sm:-left-1" />
+      <CarouselNext className="hidden sm:block sm:-right-8" />
     </Carousel>
   );
 }

@@ -36,7 +36,7 @@ export function BannerCarousel({ Images }: Props) {
                     priority
                     width={600}
                     height={300}
-                    className=" rounded-2xl overflow-hidden"
+                    className=" rounded-2xl overflow-hidden w-full h-full object-cover"
                   />
                 </CardContent>
               </Card>

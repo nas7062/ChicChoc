@@ -19,7 +19,7 @@ export function Item() {
           priority
           width={200}
           height={300}
-          className=" rouned-2xl overflow-hidden h-52 hover:scale-110 transition-transform duration-300"
+          className=" rouned-2xl overflow-hidden w-full h-52 hover:scale-110 transition-transform duration-300"
         />
       </CardHeader>
       <CardContent className="p-1 flex flex-col gap-1">
