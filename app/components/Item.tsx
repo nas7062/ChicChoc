@@ -6,13 +6,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Star } from "lucide-react";
+import { Heart, Star } from "lucide-react";
 import Image from "next/image";
 
 export function Item() {
   return (
     <Card className="w-full p-0 overflow-hidden cursor-pointer gap-1">
-      <CardHeader className="p-0 rouned-2xl overflow-hidden h-52">
+      <CardHeader className="p-0 rouned-2xl overflow-hidden h-52 relative">
         <Image
           src={"/bannerImage2.jpg"}
           alt="아이템"
@@ -21,6 +21,7 @@ export function Item() {
           height={300}
           className=" rouned-2xl overflow-hidden w-full h-52 hover:scale-110 transition-transform duration-300"
         />
+        <Heart className="absolute w-5 h-5 bottom-2 right-2 text-red-500 fill-red-500" />
       </CardHeader>
       <CardContent className="p-1 flex flex-col gap-1">
         <CardTitle className="text-xs">디어먼트</CardTitle>

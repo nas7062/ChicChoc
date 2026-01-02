@@ -14,7 +14,7 @@ interface Props {
 
 export function CategorySlider({ category }: Props) {
   return (
-    <Carousel className="w-full max-w-xl">
+    <Carousel className="w-full max-w-xl py-4">
       <CarouselContent className="ml-2 sm:ml-10">
         {category &&
           category.map((cate, index) => (
