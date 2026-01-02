@@ -6,9 +6,9 @@ export default function SearchHeaderLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="flex flex-col gap-4">
       <Header isSearch />
       {children}
-    </>
+    </div>
   );
 }
