@@ -1,19 +1,20 @@
+"use client"
 import Header from "@/app/components/Header";
-import Banner from "./_components/Banner";
-import Category from "../components/Category";
-import ItemList from "../components/ItemList";
+import { usePathname } from "next/navigation";
 
 export default function DefaultHeaderLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+  let label = ''
+  if (pathname === '/my') {
+    label = '마이페이지'
+  }
   return (
     <div className="flex flex-col gap-4">
-      <Header />
-      <Banner />
-      <Category />
-      <ItemList />
+      <Header label={label} />
       {children}
     </div>
   );
