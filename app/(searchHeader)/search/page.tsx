@@ -1,9 +1,12 @@
 import Category from "@/app/components/Category";
+import { Item } from "@/app/components/Item";
+import ItemList from "@/app/components/ItemList";
 import { X } from "lucide-react";
 
 export default function Page() {
   const recentSearch = ["최근 검색어 1", "최근 검색어 2", "최근 검색어 3"];
   const popularSearch = ["인기 검색어 1", "인기 검색어 2", "인기 검색어 3", "인기 검색어 4", "인기 검색어 5", "인기 검색어 6", "인기 검색어 7", "인기 검색어 8", "인기 검색어 9", "인기 검색어 10"];
+  const recentItem = ["아이템1", "아이템1", "아이템1", "아이템1", "아이템1", "아이템1",]
   return <div className="flex flex-col gap-4">
     <div className="flex justify-between items-center">
       <p className="font-semibold text-sm">최근 검색어</p>
@@ -24,13 +27,21 @@ export default function Page() {
     </div>
     <div className="flex flex-col gap-2">
       <p className="font-semibold text-sm">인기 검색어</p>
-      <div className="flex flex-col flex-wrap gap-1 w-full h-60">
+      <div className="flex flex-col flex-wrap gap-1 w-full h-52 ">
         {popularSearch.map((search, idx) => (
           <div key={search} className="flex items-center gap-2 hover:bg-gray-100 p-1 rounded-md cursor-pointer w-1/2">
-            <p className="text-xs text-gray-500 w-8 h-8 flex items-center justify-center rounded-md bg-gray-100">{idx + 1}</p>
+            <p className="text-xs text-gray-500 w-6 h-6 flex items-center justify-center rounded-md bg-gray-100">{idx + 1}</p>
             <p className="text-xs text-gray-500 text-nowrap">{search}</p>
           </div>
         ))}
+      </div>
+    </div>
+    <div className="flex flex-col gap-2">
+      <p className="font-semibold text-sm">최근 본 상품</p>
+      <div className="grid grid-cols-3">
+        <Item />
+        <Item />
+        <Item />
       </div>
     </div>
   </div>
