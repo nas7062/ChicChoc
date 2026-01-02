@@ -5,9 +5,11 @@ import SearchInput from "./SearchInput";
 interface HeaderProps {
   isSearch?: boolean;
   label?: string;
+  isMy?: boolean;
+  isCart?: boolean;
 }
 
-export default function Header({ isSearch = false, label }: HeaderProps) {
+export default function Header({ isSearch = false, label, isMy, isCart }: HeaderProps) {
   return (
     <div className="flex items-center justify-between gap-4  w-full">
       <LogoImage />
@@ -18,10 +20,10 @@ export default function Header({ isSearch = false, label }: HeaderProps) {
       )}
       {label && (
         < div className="flex-1">
-          <p className="flex justify-center translate-x-13 font-semibold">마이페이지</p>
+          <p className="flex justify-center translate-x-6 font-semibold">{label}</p>
         </div>
       )}
-      <MenuBtns isSearch={isSearch} />
+      <MenuBtns isSearch={isSearch} isMy={isMy} isCart={isCart} />
     </div >
   );
 }

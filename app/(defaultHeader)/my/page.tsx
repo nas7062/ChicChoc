@@ -13,7 +13,7 @@ export default function MyPage() {
       <div className="flex flex-col gap-2 justify-center items-center w-full h-40">
         <p className="font-semibold">민석</p>
         <p className="text-xs text-gray-500">nas7062@naver.com</p>
-        <button className="text-white bg-blue-400 text-sm hover:bg-blue-500 px-4 py-1 rounded-2xl transition-colors duration-300">
+        <button className="text-white bg-blue-400 text-sm hover:bg-blue-500 px-4 py-1 rounded-2xl transition-colors duration-300  cursor-pointer">
           내 정보 수정
         </button>
       </div>
