@@ -27,7 +27,7 @@ export default function CartPage() {
     );
   return (
     <div className="flex flex-col gap-4">
-      <div className="bg-gray-100 p-4">
+      <div className="bg-gray-100 p-4 flex flex-col gap-4">
         <CartItem />
         <CartItem />
       </div>

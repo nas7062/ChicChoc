@@ -25,8 +25,8 @@ export default function DefaultHeaderLayout({
         isCart={pathname === "/cart"}
       />
       {children}
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-200 p-2 rounded-full z-10">
-        <Heart className="text-red-500 fill-red-500 cursor-pointer hover:fill-red-600 transition-colors duration-300 " />
+      <div className="group fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-200 p-2 rounded-full z-10 cursor-pointer group-hover:bg-gray-300 transition-colors duration-300 ">
+        <Heart className="text-red-500 fill-red-500  group-hover:fill-red-600 " />
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ export default function CartItem() {
         <p>상품 금액</p>
         <div className="flex gap-2 items-center">
           <p className="line-through text-gray-500 text-xs">{Number(70000).toLocaleString()}</p>
-          <p className="font-semibold">{Number(63000).toLocaleString()}</p>
+          <p className="font-semibold text-blue-400">{Number(63000).toLocaleString()}</p>
         </div>
       </div>
     </div>
