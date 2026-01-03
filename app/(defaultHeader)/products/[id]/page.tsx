@@ -1,7 +1,12 @@
+"use client"
 import { Star } from "lucide-react";
 import Image from "next/image";
+import Tabs, { TabKey } from "./_components/Tabs";
+import { useState } from "react";
 
 export default function ProductDetailPage() {
+  const [selectedTab, setSelectedTab] = useState<TabKey>("home");
+
   return (
     <div className="flex flex-col gap-4">
       <div>
@@ -20,8 +25,15 @@ export default function ProductDetailPage() {
         </div>
         <p className="font-semibold text-blue-400">{Number(63000).toLocaleString()}</p>
       </div>
-      <div>
-        
+      <div className="relative w-full">
+        <Tabs selected={selectedTab} onChange={setSelectedTab} />
+        <section className="mt-24">
+          {/* {selectedTab === "home" && <HomeSection />}
+          {selectedTab === "feed" && <FeedSection />}
+          {selectedTab === "like" && <LikeSection />}
+          {selectedTab === "news" && <NewsSection />}
+          {selectedTab === "chart" && <ChartSection />} */}
+        </section>
       </div>
     </div>
   );
