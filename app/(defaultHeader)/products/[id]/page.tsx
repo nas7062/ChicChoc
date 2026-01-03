@@ -3,9 +3,14 @@ import { Star } from "lucide-react";
 import Image from "next/image";
 import Tabs, { TabKey } from "./_components/Tabs";
 import { useState } from "react";
+import InfoSection from "./_components/InfoSection";
+import SizeSection from "./_components/SizeSection";
+import ReviewSection from "./_components/ReviewSection";
+import RecoSection from "./_components/RecoSection";
+import InquirySection from "./_components/InquirySection";
 
 export default function ProductDetailPage() {
-  const [selectedTab, setSelectedTab] = useState<TabKey>("home");
+  const [selectedTab, setSelectedTab] = useState<TabKey>("info");
 
   return (
     <div className="flex flex-col gap-4">
@@ -28,11 +33,11 @@ export default function ProductDetailPage() {
       <div className="relative w-full">
         <Tabs selected={selectedTab} onChange={setSelectedTab} />
         <section className="mt-24">
-          {/* {selectedTab === "home" && <HomeSection />}
-          {selectedTab === "feed" && <FeedSection />}
-          {selectedTab === "like" && <LikeSection />}
-          {selectedTab === "news" && <NewsSection />}
-          {selectedTab === "chart" && <ChartSection />} */}
+          {selectedTab === "info" && <InfoSection />}
+          {selectedTab === "size" && <SizeSection />}
+          {selectedTab === "review" && <ReviewSection />}
+          {selectedTab === "reco" && <RecoSection />}
+          {selectedTab === "inquiry" && <InquirySection />}
         </section>
       </div>
     </div>

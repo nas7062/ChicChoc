@@ -4,11 +4,11 @@ import clsx from "clsx";
 import { ALargeSmall, BadgePlus, Info, MessageCircleCode, SquareUserRound } from "lucide-react";
 
 const NAV = {
-  home: { label: "상품정보", icon: Info },
-  feed: { label: "사이즈", icon: ALargeSmall },
-  like: { label: "리뷰", icon: MessageCircleCode },
-  news: { label: "추천", icon: BadgePlus },
-  chart: { label: "문의", icon: SquareUserRound },
+  info: { label: "상품정보", icon: Info },
+  size: { label: "사이즈", icon: ALargeSmall },
+  review: { label: "리뷰", icon: MessageCircleCode },
+  reco: { label: "추천", icon: BadgePlus },
+  inquiry: { label: "문의", icon: SquareUserRound },
 } as const;
 
 export type TabKey = keyof typeof NAV;
@@ -39,7 +39,7 @@ export default function Tabs({ selected, onChange }: TabsProps) {
               <button
                 type="button"
                 onClick={() => onChange(key as TabKey)}
-                className="flex items-center gap-2 w-full text-left"
+                className="flex items-center gap-2 w-full text-left cursor-pointer"
               >
                 <Icon className="w-3 h-3 sm:w-5 sm:h-5" />
                 <span className="text-xs sm:text-base">{v.label}</span>
