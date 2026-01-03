@@ -1,3 +1,4 @@
+"use client"
 import {
   Card,
   CardContent,
@@ -8,10 +9,15 @@ import {
 } from "@/components/ui/card";
 import { Heart, Star } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export function Item() {
+  const router = useRouter()
+  const MoveDetail = () => {
+    router.push(`/products/${1}`)
+  }
   return (
-    <Card className="w-full p-0 overflow-hidden cursor-pointer gap-1">
+    <Card className="w-full p-0 overflow-hidden cursor-pointer gap-1" onClick={MoveDetail}>
       <CardHeader className="p-0 rouned-2xl overflow-hidden h-52 relative">
         <Image
           src={"/bannerImage2.jpg"}
