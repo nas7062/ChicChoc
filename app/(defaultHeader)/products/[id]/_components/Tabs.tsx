@@ -4,11 +4,11 @@ import clsx from "clsx";
 import { ALargeSmall, BadgePlus, Info, MessageCircleCode, SquareUserRound } from "lucide-react";
 
 const NAV = {
-  info: { label: "상품정보", icon: Info },
+  info: { label: "상품 정보", icon: Info },
   size: { label: "사이즈", icon: ALargeSmall },
-  review: { label: "리뷰", icon: MessageCircleCode },
-  reco: { label: "추천", icon: BadgePlus },
-  inquiry: { label: "문의", icon: SquareUserRound },
+  review: { label: "상품 후기", icon: MessageCircleCode },
+  reco: { label: "추천 상품", icon: BadgePlus },
+  inquiry: { label: "상품 문의", icon: SquareUserRound },
 } as const;
 
 export type TabKey = keyof typeof NAV;

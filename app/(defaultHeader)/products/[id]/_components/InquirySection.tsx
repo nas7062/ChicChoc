@@ -2,7 +2,7 @@ import { Truck } from "lucide-react";
 
 export default function InquirySection() {
   return (
-    <div className="flex flex-col justify-center items-center gap-1 py-10">
+    <div className="flex flex-col justify-center items-center gap-2 py-10">
       <div><Truck className="w-10 h-10" /></div>
       <p className="font-semibold">
         배송에 대해 궁금한 것이 있으신가요?
