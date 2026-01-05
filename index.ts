@@ -7,6 +7,7 @@
 //     data: {
 //       email: "test@test.com",
 //       name: "Kim",
+//       password: "asd123546",
 //     },
 //   });
 

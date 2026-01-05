@@ -14,7 +14,10 @@ export default function EamilLoginPage() {
 
     setIsLoading(true);
     try {
-
+      await fetch("/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+      });
     } finally {
       setIsLoading(false);
     }
