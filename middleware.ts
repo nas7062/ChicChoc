@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { verifyToken } from "./app/api/auth/jwt";
+import { jwtVerify } from "jose";
 
-export function middleware(req: NextRequest) {
+const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+
+export async function middleware(req: NextRequest) {
   const token = req.cookies.get("access_token")?.value;
 
   if (!token) {
@@ -10,9 +12,9 @@ export function middleware(req: NextRequest) {
   }
 
   try {
-    verifyToken(token);
+    await jwtVerify(token, secret);
     return NextResponse.next();
-  } catch {
+  } catch (e) {
     return NextResponse.redirect(new URL("/auth/signin", req.url));
   }
 }

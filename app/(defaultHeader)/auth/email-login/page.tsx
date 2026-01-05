@@ -1,12 +1,14 @@
 "use client"
 import InputField from "@/app/components/InputField";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function EamilLoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   const isEmailValid = /\S+@\S+\.\S+/.test(email);
   const isPasswordValid = password.length >= 6;
   const isDisabled = !isEmailValid || !isPasswordValid || isLoading;
@@ -15,10 +17,11 @@ export default function EamilLoginPage() {
 
     setIsLoading(true);
     try {
-      await fetch("/api/auth/login", {
+      const response = await fetch("/api/auth/login", {
         method: "POST",
         body: JSON.stringify({ email, password }),
       });
+      if (response) router.replace('/')
     } finally {
       setIsLoading(false);
     }

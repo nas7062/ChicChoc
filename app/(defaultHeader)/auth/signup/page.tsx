@@ -1,5 +1,6 @@
 "use client"
 import InputField from "@/app/components/InputField";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function SingUpPage() {
@@ -12,15 +13,17 @@ export default function SingUpPage() {
   const isNameValid = name.trim().length >= 2;
   const isPasswordValid = password.length >= 6;
   const isPasswordConfirmBalid = password === passwordConfirm;
+  const router = useRouter()
   const isDisabled = !isEmailValid || !isNameValid || !isPasswordValid || isLoading || !isPasswordConfirmBalid;
   const onSubmit = async () => {
     if (isDisabled) return;
     setIsLoading(true);
     try {
-      await fetch("/api/auth/signup", {
+      const response = await fetch("/api/auth/signup", {
         method: "POST",
         body: JSON.stringify({ email, password, name }),
       });
+      if (response) router.replace('/')
     } finally {
       setIsLoading(false);
     }
