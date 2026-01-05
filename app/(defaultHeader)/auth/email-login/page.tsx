@@ -1,5 +1,6 @@
 "use client"
 import InputField from "@/app/components/InputField";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function EamilLoginPage() {
@@ -30,7 +31,7 @@ export default function EamilLoginPage() {
       <button onClick={onSubmit} disabled={isDisabled} className="w-full bg-blue-400 text-white py-2 rounded-2xl hover:bg-blue-500 transition-colors duration-300 cursor-pointer disabled:bg-gray-300 disabled:cursor-not-allowed">로그인</button>
       <div className="flex justify-center gap-4 text-xs text-gray-400">
         <p>아직 회원이 아니신가요?</p>
-        <p className="text-gray-500 hover:text-gray-700 cursor-pointer">회원가입</p>
+        <Link href={"/auth/signup"} className="text-gray-500 hover:text-gray-700 cursor-pointer">회원가입</Link>
       </div>
     </div>
   );

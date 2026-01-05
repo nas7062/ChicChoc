@@ -1,28 +1,42 @@
-import { Mail, MessageCircle } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+"use client"
+import InputField from "@/app/components/InputField";
+import { useState } from "react";
 
-export default function SignUpPage() {
-  return <div className="flex flex-col justify-center items-center min-h-[400px] gap-4">
-    <div>
-      <Image src={"/logo.jpg"} alt="로고" width={80} height={80} className="rounded-full" />
-    </div>
-    <div>
-      <p className="text-gray-500 text-sm">로그인 후 혜택을 받아봐요!</p>
-    </div>
+export default function SingUpPage() {
+  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
+  const [password, setPassword] = useState('')
+  const [passwordConfirm, setPasswordConfirm] = useState('')
+  const [isLoading, setIsLoading] = useState(false);
+  const isEmailValid = /\S+@\S+\.\S+/.test(email);
+  const isNameValid = name.trim().length >= 2;
+  const isPasswordValid = password.length >= 6;
+  const isPasswordConfirmBalid = password === passwordConfirm;
+  const isDisabled = !isEmailValid || !isNameValid || !isPasswordValid || isLoading || !isPasswordConfirmBalid;
+  const onSubmit = async () => {
+    if (isDisabled) return;
+    setIsLoading(true);
+    try {
+      await fetch("/api/auth/signup", {
+        method: "POST",
+        body: JSON.stringify({ email, password, name }),
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  return (
     <div className="flex flex-col gap-2">
-      <Link href={"/auth/email-login"} className="relative group">
-        <button className="bg-slate-700 text-sm text-white px-20 py-2 rounded-2xl cursor-pointer group-hover:bg-slate-800 transition-colors duration-300">이메일 로그인 </button>
-        <Mail className="absolute left-2 top-1.5 text-white cursor-pointer " strokeWidth={1} />
-      </Link>
-      <div className="relative group">
-        <button className="bg-amber-300 text-white text-sm px-20 py-2 rounded-2xl cursor-pointer group-hover:bg-amber-400 transition-colors duration-300">카카오 로그인 </button>
-        <MessageCircle className="absolute left-2  top-1.5 text-black fill-black cursor-pointer" strokeWidth={1} />
-      </div>
-      <div className="flex justify-between text-xs text-gray-400">
+      <h2 className="font-semibold">회원가입</h2>
+      <InputField label="이메일" onChange={(e) => setEmail(e.target.value)} value={email} variant="box" type="email" required placeholder="text@email.com" />
+      <InputField label="이름" onChange={(e) => setName(e.target.value)} value={name} variant="box" type="text" required placeholder="김OO" />
+      <InputField label="비밀번호" onChange={(e) => setPassword(e.target.value)} value={password} variant="box" type="password" required placeholder="영문,숫자 포함 6자 이상" />
+      <InputField label="비밀번호 확인" onChange={(e) => setPasswordConfirm(e.target.value)} value={passwordConfirm} variant="box" type="password" required placeholder="영문,숫자 포함 6자 이상" />
+      <button onClick={onSubmit} disabled={isDisabled} className="w-full bg-blue-400 text-white py-2 rounded-2xl hover:bg-blue-500 transition-colors duration-300 cursor-pointer disabled:bg-gray-300 disabled:cursor-not-allowed">회원가입</button>
+      <div className="flex justify-center gap-4 text-xs text-gray-400">
         <p>아직 회원이 아니신가요?</p>
         <p className="text-gray-500 hover:text-gray-700 cursor-pointer">회원가입</p>
       </div>
     </div>
-  </div>
+  );
 }

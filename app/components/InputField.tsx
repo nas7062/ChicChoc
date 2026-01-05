@@ -55,7 +55,7 @@ const InputField: React.FC<InputFieldProps> = ({
       {/*wrapper 영역 focus시 색 변경 */}
       <div
         className={clsx(
-          'flex mb-1 items-center border-zinc-200 transition duration-200 focus-within:border-black',
+          'flex mb-1 items-center border-zinc-200 transition duration-200 focus-within:border-blue-300',
           inputWrapperClass
         )}
       >
