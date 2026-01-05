@@ -1,37 +1,33 @@
-import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
+import { PrismaClient } from "@prisma/client";
+import { signToken } from "../jwt";
 
 const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   const { email, password } = await req.json();
 
-  const user = await prisma.user.findUnique({
-    where: { email },
-    select: {
-      id: true,
-      email: true,
-      password: true,
-    },
-  });
-
-  if (!user || !user.password) {
+  const user = await prisma.user.findUnique({ where: { email } });
+  if (!user) {
     return Response.json({ error: "Invalid credentials" }, { status: 401 });
   }
 
-  // 비밀번호 비교
   const ok = await bcrypt.compare(password, user.password);
   if (!ok) {
     return Response.json({ error: "Invalid credentials" }, { status: 401 });
   }
 
-  // JWT 발급
-  const token = jwt.sign(
-    { userId: user.id },
-    process.env.JWT_SECRET as string,
-    { expiresIn: "7d" }
-  );
+  const token = signToken(String(user.id));
 
-  return Response.json({ token });
+  (await cookies()).set("access_token", token, {
+    httpOnly: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7,
+  });
+
+  return Response.json({
+    user: { id: user.id, email: user.email },
+  });
 }

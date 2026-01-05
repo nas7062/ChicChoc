@@ -1,5 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { cookies } from "next/headers";
+import { signToken } from "../jwt";
 
 const prisma = new PrismaClient();
 
@@ -11,19 +13,22 @@ export async function POST(req: Request) {
     return Response.json({ error: "Email exists" }, { status: 400 });
   }
 
-  // 2. 비밀번호 해싱
   const hashed = await bcrypt.hash(password, 10);
 
-  // 3. DB 저장
   const user = await prisma.user.create({
-    data: {
-      email,
-      name,
-      password: hashed,
-    },
+    data: { email, password: hashed, name },
   });
 
-  //const session = await createSession(user.id);
+  const token = signToken(String(user.id));
 
-  return Response.json({ userId: user.id });
+  (await cookies()).set("access_token", token, {
+    httpOnly: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 7,
+  });
+
+  return Response.json({
+    user: { id: user.id, email: user.email },
+  });
 }
