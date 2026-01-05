@@ -7,9 +7,10 @@ interface HeaderProps {
   label?: string;
   isMy?: boolean;
   isCart?: boolean;
+  noBtn?: boolean
 }
 
-export default function Header({ isSearch = false, label, isMy, isCart }: HeaderProps) {
+export default function Header({ isSearch = false, label, isMy, isCart, noBtn }: HeaderProps) {
   return (
     <div className="flex items-center justify-between gap-4  w-full">
       <LogoImage />
@@ -19,11 +20,11 @@ export default function Header({ isSearch = false, label, isMy, isCart }: Header
         </div>
       )}
       {label && (
-        < div className="flex-1">
+        <div className="flex-1">
           <p className="flex justify-center translate-x-6 font-semibold">{label}</p>
         </div>
       )}
-      <MenuBtns isSearch={isSearch} isMy={isMy} isCart={isCart} />
+      <MenuBtns isSearch={isSearch} isMy={isMy} isCart={isCart} noBtn={noBtn} />
     </div >
   );
 }

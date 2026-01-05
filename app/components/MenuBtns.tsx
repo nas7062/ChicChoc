@@ -5,10 +5,12 @@ interface menuProps {
   isSearch?: boolean;
   isMy?: boolean
   isCart?: boolean;
+  noBtn?: boolean
 }
 
-export default function MenuBtns({ isSearch = false, isMy = false, isCart = false }: menuProps) {
+export default function MenuBtns({ isSearch = false, isMy = false, isCart = false, noBtn = false }: menuProps) {
   const btnCss = `hover:bg-slate-100 p-1.5 rounded-lg cursor-pointer z-1 transition-color duration-250`;
+  if (noBtn) return <div className="w-20"></div>;
   return (
     <div className="flex gap-4">
       {!isSearch && (

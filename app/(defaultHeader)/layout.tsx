@@ -11,12 +11,22 @@ export default function DefaultHeaderLayout({
 }) {
   const pathname = usePathname();
 
-  const label =
-    pathname === "/my"
-      ? "마이페이지"
-      : pathname === "/cart"
-        ? "장바구니"
-        : "";
+  function getPageLabel(pathname: string) {
+    switch (pathname) {
+      case "/my":
+        return "마이페이지";
+      case "/cart":
+        return "장바구니";
+      case "/signin":
+        return "로그인";
+      case "/signup":
+        return "회원가입"
+      default:
+        return "";
+    }
+  }
+
+  const label = getPageLabel(pathname);
 
   return (
     <div className="flex flex-col gap-4">
@@ -24,6 +34,7 @@ export default function DefaultHeaderLayout({
         label={label}
         isMy={pathname === "/my"}
         isCart={pathname === "/cart"}
+        noBtn={label === "로그인" || label === "회원가입"}
       />
       {children}
       <Link href="/like" className="group fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-200 p-2 rounded-full z-10 cursor-pointer group-hover:bg-gray-300 transition-colors duration-300 ">
