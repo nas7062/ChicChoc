@@ -25,5 +25,5 @@ export async function POST(req: Request) {
 
   //const session = await createSession(user.id);
 
-  return Response.json({ userId: user.id, //token: session.token });
+  return Response.json({ userId: user.id });
 }
