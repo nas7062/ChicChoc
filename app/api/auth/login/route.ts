@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     where: { email },
   });
 
-  if (!user) {
+  if (!user || !user.password) {
     return Response.json({ error: "Invalid credentials" }, { status: 401 });
   }
 
