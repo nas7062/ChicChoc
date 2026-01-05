@@ -17,10 +17,11 @@ export default function DefaultHeaderLayout({
         return "마이페이지";
       case "/cart":
         return "장바구니";
-      case "/signin":
+      case "/auth/signin":
         return "로그인";
-      case "/signup":
+      case "/auth/signup":
         return "회원가입"
+
       default:
         return "";
     }
@@ -34,7 +35,7 @@ export default function DefaultHeaderLayout({
         label={label}
         isMy={pathname === "/my"}
         isCart={pathname === "/cart"}
-        noBtn={label === "로그인" || label === "회원가입"}
+        noBtn={label === "로그인" || label === "회원가입" || pathname === "/auth/email-login"}
       />
       {children}
       <Link href="/like" className="group fixed bottom-4 left-1/2 -translate-x-1/2 bg-gray-200 p-2 rounded-full z-10 cursor-pointer group-hover:bg-gray-300 transition-colors duration-300 ">
