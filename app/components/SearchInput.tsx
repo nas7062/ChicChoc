@@ -6,7 +6,7 @@ import { useRef } from "react";
 export default function SearchInput() {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = () => {
     if (!inputRef.current) return;
 
     if (!inputRef.current.value.trim()) {

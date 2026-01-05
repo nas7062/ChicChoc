@@ -1,12 +1,12 @@
 import Category from "@/app/components/Category";
 import { Item } from "@/app/components/Item";
-import ItemList from "@/app/components/ItemList";
+
 import { X } from "lucide-react";
 
 export default function Page() {
   const recentSearch = ["최근 검색어 1", "최근 검색어 2", "최근 검색어 3"];
   const popularSearch = ["인기 검색어 1", "인기 검색어 2", "인기 검색어 3", "인기 검색어 4", "인기 검색어 5", "인기 검색어 6", "인기 검색어 7", "인기 검색어 8", "인기 검색어 9", "인기 검색어 10"];
-  const recentItem = ["아이템1", "아이템1", "아이템1", "아이템1", "아이템1", "아이템1",]
+
   return <div className="flex flex-col gap-4">
     <div className="flex justify-between items-center">
       <p className="font-semibold text-sm">최근 검색어</p>
