@@ -1,5 +1,6 @@
 
 import clsx from 'clsx';
+import { Eye, EyeClosed } from 'lucide-react';
 import React, { useState } from 'react';
 
 interface InputFieldProps {
@@ -24,7 +25,6 @@ const InputField: React.FC<InputFieldProps> = ({
   type = 'text',
   placeholder = '텍스트를 입력해주세요',
   required,
-  disabled,
   error,
   suffixButton,
   variant = 'line',
@@ -80,27 +80,14 @@ const InputField: React.FC<InputFieldProps> = ({
             className="ml-2 text-zinc-200"
           >
             {!showPassword ? (
-              <IoEyeOffOutline className="size-6" />
+              <EyeClosed className="size-6" />
             ) : (
-              <IoEyeOutline className="size-6" />
+              <Eye className="size-6" />
             )}
           </button>
         )}
         {timer && <span className=" text-xs mt-3 text-pink-500 whitespace-nowrap">{timer}</span>}
-        {suffixButton && (
-          <Button
-            variant="outline"
-            size="m"
-            type="button"
-            color="gray"
-            className={clsx(
-              'border-zinc-400 ml-2 bg-zinc-50 min-w-[100px]',
-              disabled ? 'hidden ' : ''
-            )}
-          >
-            {suffixButton}
-          </Button>
-        )}
+
       </div>
       {/*error영역*/}
       {error && <p className="text-xs md:text-sm text-pink-500">{error}</p>}

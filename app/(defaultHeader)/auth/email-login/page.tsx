@@ -9,7 +9,7 @@ export default function EamilLoginPage() {
     <div>
       <h2 className="font-semibold">이메일 로그인</h2>
       <InputField label="이메일" onChange={(e) => setEmail(e.target.value)} value={email} variant="box" type="email" required />
-      <InputField label="비밀번호" onChange={(e) => setPassword(e.target.value)} value={password} variant="box" type="email" required />
+      <InputField label="비밀번호" onChange={(e) => setPassword(e.target.value)} value={password} variant="box" type="password" required />
     </div>
   );
 }
