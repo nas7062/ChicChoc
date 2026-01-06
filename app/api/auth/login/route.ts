@@ -12,7 +12,7 @@ export async function POST(req: Request) {
   if (!user) {
     return Response.json({ error: "Invalid credentials" }, { status: 401 });
   }
-
+  if (!user.password) return;
   const ok = await bcrypt.compare(password, user.password);
   if (!ok) {
     return Response.json({ error: "Invalid credentials" }, { status: 401 });
