@@ -1,4 +1,6 @@
+"use client"
 import { Mail, MessageCircle } from "lucide-react";
+import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -16,7 +18,7 @@ export default function SignInPage() {
         <Mail className="absolute left-2 top-1.5 text-white cursor-pointer " strokeWidth={1} />
       </Link>
       <div className="relative group">
-        <button className="bg-amber-300 text-white text-sm px-20 py-2 rounded-2xl cursor-pointer group-hover:bg-amber-400 transition-colors duration-300">카카오 로그인 </button>
+        <button onClick={() => signIn("kakao")} className="bg-amber-300 text-white text-sm px-20 py-2 rounded-2xl cursor-pointer group-hover:bg-amber-400 transition-colors duration-300" >카카오 로그인 </button>
         <MessageCircle className="absolute left-2  top-1.5 text-black fill-black cursor-pointer" strokeWidth={1} />
       </div>
       <div className="flex justify-between text-xs text-gray-400">

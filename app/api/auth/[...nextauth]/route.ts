@@ -1,9 +1,9 @@
-import { PrismaAdapter } from '@auth/prisma-adapter';
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import NextAuth from "next-auth";
 import KakaoProvider from "next-auth/providers/kakao";
 
-const prisma = new PrismaClient();
+export const runtime = "nodejs";
 
 const handler = NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -15,6 +15,20 @@ const handler = NextAuth({
   ],
   session: {
     strategy: "jwt",
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.userId = user.id;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.email = token.email as string;
+      }
+      return session;
+    },
   },
 });
 
