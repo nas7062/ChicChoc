@@ -14,9 +14,22 @@ const MyList = [
 ];
 
 export default function MyPage() {
-  const handleClick = (item: (typeof MyList)[number]) => {
-    if (item.action === "logout") {
-      signOut({ callbackUrl: "/auth/signin" });
+  const handleClick = async (item: (typeof MyList)[number]) => {
+    if (item.action !== "logout") return;
+
+    try {
+      // 커스텀 JWT 쿠키 삭제
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+
+      // NextAuth 세션 종료
+      await signOut({
+        callbackUrl: "/auth/signin",
+      });
+    } catch (e) {
+      console.error("logout failed", e);
     }
   };
 
