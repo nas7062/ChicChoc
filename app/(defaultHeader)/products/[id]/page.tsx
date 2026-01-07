@@ -19,7 +19,7 @@ export default async function ProductDetailPage({ params }: Props) {
     where: { id },
   });
 
-
+  if (!product) notFound();
 
   return <ProductDetailClient product={product} />;
 }

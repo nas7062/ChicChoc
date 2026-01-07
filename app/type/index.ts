@@ -7,6 +7,6 @@ export interface Product {
   discountRate: number;
   rating?: number;
   reviewCount?: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
