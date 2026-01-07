@@ -1,16 +1,22 @@
+import { Product } from "../type";
 import { Item } from "./Item";
 
-export default function ItemList() {
+export default async function ItemList() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/products`,
+    { cache: "no-store" }
+  );
+  if (!res.ok) {
+    throw new Error("Failed to fetch products");
+  }
+  console.log(res)
+  const { items } = await res.json();
+
   return (
     <div className="flex flex-col gap-4">
       <h2 className="font-semibold">당신을 위한 추천 아이템</h2>
       <div className="grid  grid-cols-2 sm:grid-cols-3 gap-1">
-        <Item />
-        <Item />
-        <Item />
-        <Item />
-        <Item />
-        <Item />
+        {items && items.map((item: Product) => <Item item={item} key={item.id} />)}
       </div>
     </div>
   );

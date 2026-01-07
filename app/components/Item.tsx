@@ -10,8 +10,13 @@ import {
 import { Heart, Star } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Product } from "../type";
 
-export function Item() {
+interface Props {
+  item: Product
+}
+
+export function Item({ item }: Props) {
   const router = useRouter()
   const MoveDetail = () => {
     router.push(`/products/${1}`)
@@ -20,8 +25,8 @@ export function Item() {
     <Card className="w-full p-0 overflow-hidden cursor-pointer gap-1" onClick={MoveDetail}>
       <CardHeader className="p-0 rouned-2xl overflow-hidden h-52 relative">
         <Image
-          src={"/bannerImage2.jpg"}
-          alt="아이템"
+          src={item.imageUrl}
+          alt={item.title}
           priority
           width={200}
           height={300}
@@ -30,19 +35,19 @@ export function Item() {
         <Heart className="absolute w-5 h-5 bottom-2 right-2 text-red-500 fill-red-500" />
       </CardHeader>
       <CardContent className="p-1 flex flex-col gap-1">
-        <CardTitle className="text-xs">디어먼트</CardTitle>
+        <CardTitle className="text-xs">{item.brand}</CardTitle>
         <CardDescription className="text-xs">
-          [연말세일] 울 70% 섬세한 하프코트 폭풍세일
+          {item.title}
         </CardDescription>
         <div className="flex gap-1 text-sm">
-          <p className="text-blue-400">35%</p>
-          <p>{Number(125000).toLocaleString()}</p>
+          <p className="text-blue-400">{item.discountRate}%</p>
+          <p>{Number(item.price).toLocaleString()}</p>
         </div>
       </CardContent>
       <CardFooter className="flex gap-1 p-1 text-slate-500 ">
         <Star className="text-gray-300 w-4 h-4" />
-        <p className="text-xs">4.8</p>
-        <p className="text-xs">(10012)</p>
+        <p className="text-xs">{item.rating}</p>
+        <p className="text-xs">({item.reviewCount})</p>
       </CardFooter>
     </Card>
   );

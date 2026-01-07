@@ -57,3 +57,28 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+
+model Product {
+  id            Int      @id @default(autoincrement())
+  brand         String
+  title         String
+  imageUrl      String
+  price         Int
+  discountRate  Int
+  rating        Float    @default(0)
+  reviewCount   Int      @default(0)
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model ProductLike {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  productId Int
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+}
