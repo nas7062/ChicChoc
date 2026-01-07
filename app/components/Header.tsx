@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import LogoImage from "./LogoImage";
 import MenuBtns from "./MenuBtns";
 import SearchInput from "./SearchInput";
@@ -16,9 +17,11 @@ export default function Header({ isSearch = false, label, isMy, isCart, noBtn, i
     <div className="flex items-center justify-between gap-4  w-full">
       <LogoImage />
       {isSearch && (
-        <div className="flex-1">
-          <SearchInput />
-        </div>
+        <Suspense fallback={<div>loading...</div>}>
+          <div className="flex-1">
+            <SearchInput />
+          </div>
+        </Suspense>
       )}
       {label && (
         <div className="flex-1">
