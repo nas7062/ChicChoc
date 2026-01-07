@@ -28,7 +28,7 @@ export default function SearchInput() {
         placeholder="검색어를 입력하세요"
         className="border border-gray-300 rounded-xl w-full h-8 pl-10 pr-4 text-sm"
       />
-      <Search className="absolute left-2 top-1 text-gray-500" size={20} />
+      <Search className="absolute left-2 top-1.5 text-gray-500" size={20} />
     </form>
   );
 }

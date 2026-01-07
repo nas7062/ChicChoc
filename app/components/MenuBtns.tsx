@@ -1,14 +1,15 @@
-import { Search, ShoppingCart, UserRound } from "lucide-react";
+import { Heart, Search, ShoppingCart, UserRound } from "lucide-react";
 import Link from "next/link";
 
 interface menuProps {
   isSearch?: boolean;
   isMy?: boolean
   isCart?: boolean;
-  noBtn?: boolean
+  noBtn?: boolean;
+  isLike?: boolean;
 }
 
-export default function MenuBtns({ isSearch = false, isMy = false, isCart = false, noBtn = false }: menuProps) {
+export default function MenuBtns({ isSearch = false, isMy = false, isCart = false, noBtn = false, isLike = false }: menuProps) {
   const btnCss = `hover:bg-slate-100 p-1.5 rounded-lg cursor-pointer z-1 transition-color duration-250`;
   if (noBtn) return <div className="w-20"></div>;
   return (
@@ -18,6 +19,12 @@ export default function MenuBtns({ isSearch = false, isMy = false, isCart = fals
           <Search size={25} />
         </Link>
       )}
+      {
+        !isLike && (<Link href={"/like"} className={btnCss} aria-label="찜 버튼">
+          <Heart size={25} />
+        </Link>)
+      }
+
       {!isCart && <Link href={"/cart"} className={btnCss} aria-label="카트 버튼">
         <ShoppingCart size={25} />
       </Link>}

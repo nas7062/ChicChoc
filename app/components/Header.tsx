@@ -8,9 +8,10 @@ interface HeaderProps {
   isMy?: boolean;
   isCart?: boolean;
   noBtn?: boolean
+  isLike?: boolean
 }
 
-export default function Header({ isSearch = false, label, isMy, isCart, noBtn }: HeaderProps) {
+export default function Header({ isSearch = false, label, isMy, isCart, noBtn, isLike }: HeaderProps) {
   return (
     <div className="flex items-center justify-between gap-4  w-full">
       <LogoImage />
@@ -21,10 +22,10 @@ export default function Header({ isSearch = false, label, isMy, isCart, noBtn }:
       )}
       {label && (
         <div className="flex-1">
-          <p className="flex justify-center translate-x-6 font-semibold">{label}</p>
+          <p className="flex justify-center translate-x-14 font-semibold">{label}</p>
         </div>
       )}
-      <MenuBtns isSearch={isSearch} isMy={isMy} isCart={isCart} noBtn={noBtn} />
+      <MenuBtns isSearch={isSearch} isMy={isMy} isCart={isCart} noBtn={noBtn} isLike={isLike} />
     </div >
   );
 }

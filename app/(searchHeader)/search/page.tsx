@@ -38,9 +38,7 @@ export default function Page() {
     </div>
     <div className="flex flex-col gap-2">
       <p className="font-semibold text-sm">최근 본 상품</p>
-      <div className="grid grid-cols-3">
-        <ItemList />
-      </div>
+      <ItemList />
     </div>
   </div>
 }
