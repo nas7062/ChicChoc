@@ -4,7 +4,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function main() {
-  const res = await fetch("https://dummyjson.com/products?limit=50");
+  const res = await fetch("https://dummyjson.com/products?limit=100");
   const { products } = await res.json();
 
   await prisma.product.createMany({
@@ -19,8 +19,6 @@ async function main() {
     })),
     skipDuplicates: true,
   });
-
-  console.log("✅ Products seeded");
 }
 
 main()

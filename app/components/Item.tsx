@@ -19,7 +19,7 @@ interface Props {
 export function Item({ item }: Props) {
   const router = useRouter()
   const MoveDetail = () => {
-    router.push(`/products/${1}`)
+    router.push(`/products/${item.id}`)
   }
   return (
     <Card className="w-full p-0 overflow-hidden cursor-pointer gap-1" onClick={MoveDetail}>

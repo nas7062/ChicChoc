@@ -9,7 +9,7 @@ export default async function ItemList() {
   if (!res.ok) {
     throw new Error("Failed to fetch products");
   }
-  console.log(res)
+
   const { items } = await res.json();
 
   return (

@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export async function GET() {
   const products = await prisma.product.findMany({
     orderBy: { createdAt: "desc" },
-    take: 20,
+    take: 50,
   });
 
   return NextResponse.json({
