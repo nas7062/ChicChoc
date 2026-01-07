@@ -1,5 +1,5 @@
 import CartItem from "@/app/components/CartItem";
-import { Item } from "@/app/components/Item";
+import ItemList from "@/app/components/ItemList";
 
 export default function CartPage() {
   const cartList = ['ads', 'asdas', 'sadsa']
@@ -18,9 +18,7 @@ export default function CartPage() {
         <div className="flex flex-col gap-2">
           <p className="font-semibold text-sm">최근 본 상품</p>
           <div className="grid grid-cols-3">
-            <Item />
-            <Item />
-            <Item />
+            <ItemList />
           </div>
         </div>
       </div>
@@ -49,9 +47,7 @@ export default function CartPage() {
       <div className="flex flex-col gap-2">
         <p className="font-semibold text-sm">최근 본 상품</p>
         <div className="grid grid-cols-3">
-          <Item />
-          <Item />
-          <Item />
+          <ItemList />
         </div>
       </div>
       <div className="fixed bottom-4 left-0 right-0 flex justify-center px-4 z-50">

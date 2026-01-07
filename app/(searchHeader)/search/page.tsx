@@ -1,5 +1,5 @@
 import Category from "@/app/components/Category";
-import { Item } from "@/app/components/Item";
+import ItemList from "@/app/components/ItemList";
 
 import { X } from "lucide-react";
 
@@ -39,9 +39,7 @@ export default function Page() {
     <div className="flex flex-col gap-2">
       <p className="font-semibold text-sm">최근 본 상품</p>
       <div className="grid grid-cols-3">
-        <Item />
-        <Item />
-        <Item />
+        <ItemList />
       </div>
     </div>
   </div>
