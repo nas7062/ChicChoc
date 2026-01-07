@@ -9,9 +9,10 @@ import SizeSection from "./SizeSection";
 import ReviewSection from "./ReviewSection";
 import RecoSection from "./RecoSection";
 import InquirySection from "./InquirySection";
+import { Product } from "@/app/type";
 
 
-export default function ProductDetailClient({ product }: { product: any }) {
+export default function ProductDetailClient({ product }: { product: Product }) {
   const [selectedTab, setSelectedTab] = useState<TabKey>("info");
 
   return (
