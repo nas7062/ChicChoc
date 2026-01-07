@@ -22,7 +22,7 @@ export default function Header({ isSearch = false, label, isMy, isCart, noBtn, i
       )}
       {label && (
         <div className="flex-1">
-          <p className="flex justify-center translate-x-14 font-semibold">{label}</p>
+          <p className="flex justify-center translate-x-10 font-semibold">{label}</p>
         </div>
       )}
       <MenuBtns isSearch={isSearch} isMy={isMy} isCart={isCart} noBtn={noBtn} isLike={isLike} />

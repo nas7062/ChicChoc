@@ -50,7 +50,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         <Tabs selected={selectedTab} onChange={setSelectedTab} />
 
         <section className="mt-24">
-          {selectedTab === "info" && <InfoSection />}
+          {selectedTab === "info" && <InfoSection image={product.imageUrl} />}
           {selectedTab === "size" && <SizeSection />}
           {selectedTab === "review" && <ReviewSection />}
           {selectedTab === "reco" && <RecoSection />}

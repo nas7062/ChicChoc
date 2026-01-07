@@ -1,6 +1,5 @@
 import Category from "@/app/components/Category";
 import ItemList from "@/app/components/ItemList";
-
 import { X } from "lucide-react";
 
 export default function Page() {
