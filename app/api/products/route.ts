@@ -1,15 +1,20 @@
-import { PrismaClient } from "@prisma/client";
 import { NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
 
-const prisma = new PrismaClient();
+export const runtime = "nodejs";
 
 export async function GET() {
-  const products = await prisma.product.findMany({
-    orderBy: { createdAt: "desc" },
-    take: 50,
-  });
+  const supabase = await createClient();
 
-  return NextResponse.json({
-    items: products,
-  });
+  const { data, error } = await supabase
+    .from("Product")
+    .select("*")
+    .order("createdAt", { ascending: false })
+    .limit(50);
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ items: data });
 }
