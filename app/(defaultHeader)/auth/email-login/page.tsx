@@ -1,5 +1,6 @@
 "use client"
 import InputField from "@/app/components/InputField";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -17,11 +18,18 @@ export default function EamilLoginPage() {
 
     setIsLoading(true);
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
       });
-      if (response) router.replace('/')
+
+      if (result?.error) {
+        alert("이메일 또는 비밀번호가 올바르지 않습니다.");
+        return;
+      }
+
+      router.replace("/");
     } finally {
       setIsLoading(false);
     }
