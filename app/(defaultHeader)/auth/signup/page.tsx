@@ -23,7 +23,7 @@ export default function SingUpPage() {
         method: "POST",
         body: JSON.stringify({ email, password, name }),
       });
-      if (response) router.replace('/')
+      if (response.status === 201) router.replace('/')
     } finally {
       setIsLoading(false);
     }

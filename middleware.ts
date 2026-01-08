@@ -6,7 +6,7 @@ import { createServerClient } from "@supabase/ssr";
 const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
 
 export async function middleware(req: NextRequest) {
-  let res = NextResponse.next();
+  const res = NextResponse.next();
 
   // =========================
   // 1. 기존 인증 로직 (유지)

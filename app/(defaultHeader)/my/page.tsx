@@ -1,6 +1,6 @@
 "use client";
 import { BadgeRussianRuble, List, LogOut, SquareChartGantt } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 const MyList = [
   { label: "주문 내역", icon: List },
@@ -14,6 +14,10 @@ const MyList = [
 ];
 
 export default function MyPage() {
+  const { data: session, status } = useSession();
+  console.log(session)
+  if (status === "loading") return null;
+
   const handleClick = async (item: (typeof MyList)[number]) => {
     if (item.action !== "logout") return;
 
@@ -36,8 +40,8 @@ export default function MyPage() {
   return (
     <div className="w-full">
       <div className="flex flex-col gap-2 justify-center items-center w-full h-40">
-        <p className="font-semibold">민석</p>
-        <p className="text-xs text-gray-500">nas7062@naver.com</p>
+        <p className="font-semibold">{session?.user.name}</p>
+        <p className="text-xs text-gray-500">{session?.user.email}</p>
         <button className="text-white bg-blue-400 text-sm hover:bg-blue-500 px-4 py-1 rounded-2xl transition-colors duration-300 cursor-pointer">
           내 정보 수정
         </button>
