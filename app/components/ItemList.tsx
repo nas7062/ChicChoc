@@ -3,7 +3,7 @@ import { Item } from "./Item";
 
 export default async function ItemList() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/products`,
+    `/api/products`,
     { cache: "no-store" }
   );
   if (!res.ok) {
