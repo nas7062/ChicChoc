@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Gelasio, AR_One_Sans } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import AuthSession from "@/provider/authSession";
 
-const geistSans = Gelasio({
+const geistSans = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const geistMono = AR_One_Sans({
+const geistMono = JetBrains_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistMono.variable} ${geistSans.variable} antialiased`}
       >
         <AuthSession>
           <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black overflow-x-hidden">

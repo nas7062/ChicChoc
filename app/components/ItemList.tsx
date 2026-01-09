@@ -1,18 +1,13 @@
-import { createClient } from "@/lib/supabase/server";
+
 import { Item } from "./Item";
 
 export default async function ItemList() {
-  const supabase = await createClient();
+  const res = await fetch("http://localhost:3000/api/products", {
+    cache: "no-store",
+  });
 
-  const { data: items, error } = await supabase
-    .from("Product")
-    .select("*")
-    .order("createdAt", { ascending: false })
-    .limit(50);
-
-  if (error) {
-    throw new Error(error.message);
-  }
+  const { items } = await res.json();
+  console.log(res);
 
   return (
     <div className="flex flex-col gap-4">

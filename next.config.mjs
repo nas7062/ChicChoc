@@ -9,6 +9,14 @@ const nextConfig = {
         protocol: "https",
         hostname: "cdn.dummyjson.com",
       },
+      {
+        protocol: "http",
+        hostname: "picsum.photos",
+      },
+      {
+        protocol: "https",
+        hostname: "picsum.photos",
+      },
     ],
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],

@@ -21,6 +21,9 @@ export default function SingUpPage() {
     try {
       const response = await fetch("/api/auth/signup", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({ email, password, name }),
       });
       if (response.status === 201) router.replace('/')

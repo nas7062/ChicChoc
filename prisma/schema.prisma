@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -61,17 +62,38 @@ model VerificationToken {
 
 model Product {
   id            Int      @id @default(autoincrement())
-  brand         String
   title         String
+  slug          String   @unique
+  brand         String
   imageUrl      String
   price         Int
   discountRate  Int
   rating        Float    @default(0)
   reviewCount   Int      @default(0)
+  stock         Int      @default(0)
+  isActive      Boolean  @default(true)
+
+  categoryId    Int
+  category      Category @relation(fields: [categoryId], references: [id])
 
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+
+  @@index([categoryId])
+  @@index([categoryId, price])
+  @@index([price])
+  @@index([rating])
+  @@index([brand])
+  @@index([createdAt])
 }
+
+model Category {
+  id       Int     @id @default(autoincrement())
+  name     String
+  slug     String  @unique
+  products Product[]
+}
+
 
 model ProductLike {
   id        Int      @id @default(autoincrement())
