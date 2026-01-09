@@ -47,6 +47,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ user }, { status: 201 });
   } catch (err) {
+    console.error(err);
     return NextResponse.json(
       { message: "서버 오류가 발생했습니다." },
       { status: 500 }
