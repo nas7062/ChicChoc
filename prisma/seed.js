@@ -6,24 +6,28 @@ async function main() {
   // 1️⃣ Category 생성
   const categories = await prisma.category.createMany({
     data: [
-      { id: 1, name: "신발", slug: "shoes" },
-      { id: 2, name: "의류", slug: "clothing" },
-      { id: 3, name: "전자기기", slug: "electronics" },
-      { id: 4, name: "생활용품", slug: "home-goods" },
+      { id: 1, slug: "신발", name: "Hot" },
+      { id: 2, slug: "상의", name: "Top" },
+      { id: 3, slug: "바지", name: "Bottom" },
+      { id: 4, slug: "빠른배송", name: "Quick" },
+      { id: 5, slug: "아우터", name: "Outer" },
+      { id: 6, slug: "화장품", name: "Beauty" },
+      { id: 7, slug: "신발", name: "Shoes" },
+      { id: 8, slug: "가방", name: "Bag" },
     ],
     skipDuplicates: true,
   });
 
-  console.log("✅ Categories seeded");
+ 
 
   // 2️⃣ Product 50개 생성
   const products = Array.from({ length: 50 }).map((_, i) => {
-    const categoryId = (i % 4) + 1;
+    const categoryId = (i % 8) + 1;
 
     return {
       title: `샘플 상품 ${i + 1}`,
       slug: `sample-product-${i + 1}`,
-      brand: ["NIKE", "ADIDAS", "APPLE", "DYSON"][i % 4],
+      brand: ["NIKE", "ADIDAS", "APPLE", "DYSON","DIVEIN","DRAWFIT","YAMMY","HOOVES"][i % 8],
       imageUrl: `https://picsum.photos/seed/product-${i + 1}/600/600`,
       price: 50000 + i * 1000,
       discountRate: (i % 5) * 5,
@@ -42,7 +46,7 @@ async function main() {
     skipDuplicates: true,
   });
 
-  console.log("✅ Products seeded (50 items)");
+ 
 }
 
 main()
