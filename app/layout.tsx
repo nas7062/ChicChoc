@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Gelasio, AR_One_Sans } from "next/font/google";
 import "./globals.css";
 import AuthSession from "@/provider/authSession";
 
-const geistSans = Geist({
+const geistSans = Gelasio({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
+const geistMono = AR_One_Sans({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
