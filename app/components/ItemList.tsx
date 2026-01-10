@@ -3,7 +3,7 @@ import { Item } from "./Item";
 
 export default async function ItemList() {
   const res = await fetch("http://localhost:3000/api/products", {
-    cache: "force-cache",
+    next: { revalidate: 60 },
   });
 
   const { items } = await res.json();

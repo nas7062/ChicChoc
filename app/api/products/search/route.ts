@@ -18,7 +18,6 @@ export async function GET(req: Request) {
       });
     }
 
-
     const items = await prisma.product.findMany({
       where: {
         isActive: true,
@@ -32,7 +31,7 @@ export async function GET(req: Request) {
         }),
 
         ...(category && {
-          categoryId:Number(category),
+          categoryId: Number(category),
         }),
       },
       orderBy: { createdAt: "desc" },

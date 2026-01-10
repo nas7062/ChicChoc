@@ -1,9 +1,24 @@
+"use client"
+
 import Category from "@/app/components/Category";
-import ItemList from "@/app/components/ItemList";
+import SearchList from "@/app/components/SearchList";
 import { X } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+
 
 export default function SearchContent() {
-  const recentSearch = ["최근 검색어 1", "최근 검색어 2", "최근 검색어 3"];
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [recentKeywords, setRecentKeywords] = useState<string[]>([]);
+  const keyword = searchParams.get("keyword");
+  const category = searchParams.get("category");
+  useEffect(() => {
+    const stored = JSON.parse(
+      localStorage.getItem("recentKeywords") || "[]"
+    );
+    setRecentKeywords(stored);
+  }, []);
   const popularSearch = [
     "인기 검색어 1",
     "인기 검색어 2",
@@ -17,13 +32,15 @@ export default function SearchContent() {
     "인기 검색어 10",
   ];
   const saveRecentKeyword = (keyword: string) => {
-    const prev = JSON.parse(localStorage.getItem("recentKeywords") || "[]");
-    const next = [keyword, ...prev.filter((k: string) => k !== keyword)].slice(
-      0,
-      10
-    );
+    const next = [
+      keyword,
+      ...recentKeywords.filter((k) => k !== keyword),
+    ].slice(0, 10);
+
     localStorage.setItem("recentKeywords", JSON.stringify(next));
+    setRecentKeywords(next);
   };
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
@@ -34,7 +51,7 @@ export default function SearchContent() {
       </div>
 
       <div className="flex gap-1 ">
-        {recentSearch.map((search) => (
+        {recentKeywords.map((search: string) => (
           <div key={search} className="relative">
             <p
               key={search}
@@ -67,8 +84,8 @@ export default function SearchContent() {
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <p className="font-semibold text-sm">최근 본 상품</p>
-        <ItemList />
+        <p className="font-semibold text-sm"></p>
+        <SearchList keyword={keyword} category={category} />
       </div>
     </div>
   );

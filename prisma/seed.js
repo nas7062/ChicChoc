@@ -4,23 +4,11 @@ const prisma = new PrismaClient();
 
 async function main() {
   // 1️⃣ Category 생성
-  const categories = await prisma.category.createMany({
-    data: [
-      { id: 1, slug: "신발", name: "Hot" },
-      { id: 2, slug: "상의", name: "Top" },
-      { id: 3, slug: "바지", name: "Bottom" },
-      { id: 4, slug: "빠른배송", name: "Quick" },
-      { id: 5, slug: "아우터", name: "Outer" },
-      { id: 6, slug: "화장품", name: "Beauty" },
-      { id: 7, slug: "신발", name: "Shoes" },
-      { id: 8, slug: "가방", name: "Bag" },
-    ],
-    skipDuplicates: true,
-  });
+  const categories = await prisma.category.findMany();
 
-  // 2️⃣ Product 50개 생성
+  // 2️⃣ Product 생성
   const products = Array.from({ length: 50 }).map((_, i) => {
-    const categoryId = (i % 8) + 1;
+    const category = categories[i % categories.length];
 
     return {
       title: `샘플 상품 ${i + 1}`,
@@ -42,16 +30,11 @@ async function main() {
       reviewCount: 10 + i * 3,
       stock: i % 7 === 0 ? 0 : 20,
       isActive: i % 11 !== 0,
-      categoryId,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      categoryId: category.id, // 🔑 실제 UUID
     };
   });
 
-  await prisma.product.createMany({
-    data: products,
-    skipDuplicates: true,
-  });
+  await prisma.product.createMany({ data: products });
 }
 
 main()
