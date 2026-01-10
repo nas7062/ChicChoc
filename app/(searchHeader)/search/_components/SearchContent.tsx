@@ -3,22 +3,16 @@
 import Category from "@/app/components/Category";
 import SearchList from "@/app/components/SearchList";
 import { X } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 
 export default function SearchContent() {
   const searchParams = useSearchParams();
-  const router = useRouter();
-  const [recentKeywords, setRecentKeywords] = useState<string[]>([]);
+
   const keyword = searchParams.get("keyword");
   const category = searchParams.get("category");
-  useEffect(() => {
-    const stored = JSON.parse(
-      localStorage.getItem("recentKeywords") || "[]"
-    );
-    setRecentKeywords(stored);
-  }, []);
+
   const popularSearch = [
     "인기 검색어 1",
     "인기 검색어 2",
@@ -31,21 +25,37 @@ export default function SearchContent() {
     "인기 검색어 9",
     "인기 검색어 10",
   ];
-  const saveRecentKeyword = (keyword: string) => {
-    const next = [
-      keyword,
-      ...recentKeywords.filter((k) => k !== keyword),
-    ].slice(0, 10);
+  const [recentKeywords, setRecentKeywords] = useState<string[]>(() => {
 
+    if (typeof window === "undefined") return [];
+    try {
+      return JSON.parse(localStorage.getItem("recentKeywords") || "[]");
+    } catch {
+      return [];
+    }
+  });
+
+  const saveRecentKeyword = (kw: string) => {
+    const next = [kw, ...recentKeywords.filter((k) => k !== kw)].slice(0, 10);
     localStorage.setItem("recentKeywords", JSON.stringify(next));
     setRecentKeywords(next);
   };
 
+  const removeRecentKeyword = (kw: string) => {
+    const next = recentKeywords.filter((k) => k !== kw);
+    localStorage.setItem("recentKeywords", JSON.stringify(next));
+    setRecentKeywords(next);
+  };
+
+  const clearRecentKeywords = () => {
+    localStorage.removeItem("recentKeywords");
+    setRecentKeywords([]);
+  };
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
         <p className="font-semibold text-sm">최근 검색어</p>
-        <p className="text-sm text-gray-500 hover:text-gray-700 cursor-pointer">
+        <p className="text-sm text-gray-500 hover:text-gray-700 cursor-pointer" onClick={clearRecentKeywords}>
           전체삭제
         </p>
       </div>
@@ -59,7 +69,7 @@ export default function SearchContent() {
             >
               {search}
             </p>
-            <X className="absolute right-1.5 top-[5px] w-4 h-4 text-gray-400 hover:text-gray-700 cursor-pointer" />
+            <X className="absolute right-1.5 top-[5px] w-4 h-4 text-gray-400 hover:text-gray-700 cursor-pointer" onClick={() => removeRecentKeyword(search)} />
           </div>
         ))}
       </div>
