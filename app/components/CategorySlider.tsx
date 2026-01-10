@@ -22,9 +22,12 @@ export function CategorySlider({ category }: Props) {
       <CarouselContent className="ml-2 sm:ml-10">
         {category &&
           category.map((cate, index) => (
-            <CarouselItem key={index} className="pl-1  basis-1/4">
+            <CarouselItem key={index + 1} className="pl-1  basis-1/4">
               <div className="p-1">
-                <Card className="w-20 h-20 rounded-full p-0 overflow-hidden cursor-pointer group" onClick={() => router.push(`/search?category=${cate.label}`)}>
+                <Card
+                  className="w-20 h-20 rounded-full p-0 overflow-hidden cursor-pointer group"
+                  onClick={() => router.push(`/search?category=${index + 1}`)}
+                >
                   <CardContent className="relative w-full h-full p-0 flex items-center justify-center">
                     <Image
                       src={cate.image ?? "/logo.jpg"}

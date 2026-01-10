@@ -5,7 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  
 }
 
 model User {
@@ -103,4 +103,13 @@ model ProductLike {
   createdAt DateTime @default(now())
 
   @@unique([userId, productId])
+}
+
+
+model SearchKeyword {
+  id        String   @id @default(cuid())
+  keyword   String   @unique
+  count     Int      @default(1)
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
 }

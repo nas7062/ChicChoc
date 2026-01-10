@@ -18,8 +18,6 @@ async function main() {
     skipDuplicates: true,
   });
 
- 
-
   // 2️⃣ Product 50개 생성
   const products = Array.from({ length: 50 }).map((_, i) => {
     const categoryId = (i % 8) + 1;
@@ -27,7 +25,16 @@ async function main() {
     return {
       title: `샘플 상품 ${i + 1}`,
       slug: `sample-product-${i + 1}`,
-      brand: ["NIKE", "ADIDAS", "APPLE", "DYSON","DIVEIN","DRAWFIT","YAMMY","HOOVES"][i % 8],
+      brand: [
+        "NIKE",
+        "ADIDAS",
+        "APPLE",
+        "DYSON",
+        "DIVEIN",
+        "DRAWFIT",
+        "YAMMY",
+        "HOOVES",
+      ][i % 8],
       imageUrl: `https://picsum.photos/seed/product-${i + 1}/600/600`,
       price: 50000 + i * 1000,
       discountRate: (i % 5) * 5,
@@ -45,8 +52,6 @@ async function main() {
     data: products,
     skipDuplicates: true,
   });
-
- 
 }
 
 main()

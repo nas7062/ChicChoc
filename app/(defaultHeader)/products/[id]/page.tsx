@@ -2,7 +2,6 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import ProductDetailClient from "./_components/ProductDetailClient";
 
-
 interface Props {
   params: Promise<{ id: string }>;
 }
