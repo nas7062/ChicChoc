@@ -19,7 +19,7 @@ export default function SearchList({ keyword, category }: { keyword: string | nu
   }, [keyword, category]);
 
   return (
-    <div>
+    <div className="grid grid-cols-2 sm:grid-cols-3 gap-1">
       {items.map(item => (
         <Item key={item.id} item={item} />
       ))}
