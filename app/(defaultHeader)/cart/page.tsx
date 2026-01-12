@@ -3,10 +3,15 @@ export const dynamic = "force-dynamic";
 import CartItem from "@/app/components/CartItem";
 import ItemList from "@/app/components/ItemList";
 
-export default function CartPage() {
+import { prisma } from "@/lib/prisma";
+export default async function CartPage() {
   const cartList = ['ads', 'asdas', 'sadsa']
 
-
+  const items = await prisma.product.findMany({
+    where: { isActive: true },
+    orderBy: { createdAt: "desc" },
+    take: 20,
+  });
   if (cartList.length === 0)
     return (
       <div className="w-full">
@@ -20,7 +25,7 @@ export default function CartPage() {
         <div className="flex flex-col gap-2">
           <p className="font-semibold text-sm">최근 본 상품</p>
           <div className="grid grid-cols-3">
-            <ItemList />
+            <ItemList items={items} />
           </div>
         </div>
       </div>
@@ -49,7 +54,7 @@ export default function CartPage() {
       <div className="flex flex-col gap-2">
         <p className="font-semibold text-sm">최근 본 상품</p>
         <div className="grid grid-cols-3">
-          <ItemList />
+          <ItemList items={items} />
         </div>
       </div>
       <div className="fixed bottom-4 left-0 right-0 flex justify-center px-4 z-50">
