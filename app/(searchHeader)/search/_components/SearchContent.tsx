@@ -5,7 +5,7 @@ import SearchList from "@/app/components/SearchList";
 import { ISearchKeyword } from "@/app/type";
 import { X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 
 export default function SearchContent({ popularSearch }: { popularSearch: ISearchKeyword[] }) {
@@ -25,11 +25,13 @@ export default function SearchContent({ popularSearch }: { popularSearch: ISearc
     }
   });
 
-  const saveRecentKeyword = (kw: string) => {
-    const next = [kw, ...recentKeywords.filter((k) => k !== kw)].slice(0, 10);
-    localStorage.setItem("recentKeywords", JSON.stringify(next));
-    setRecentKeywords(next);
-  };
+  const saveRecentKeyword = useCallback((kw: string) => {
+    setRecentKeywords(prev => {
+      const next = [kw, ...prev.filter(k => k !== kw)].slice(0, 10);
+      localStorage.setItem("recentKeywords", JSON.stringify(next));
+      return next;
+    });
+  }, []);
 
   const removeRecentKeyword = (kw: string) => {
     const next = recentKeywords.filter((k) => k !== kw);
@@ -45,10 +47,12 @@ export default function SearchContent({ popularSearch }: { popularSearch: ISearc
 
   useEffect(() => {
     if (!keyword) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     saveRecentKeyword(keyword);
-  }, [keyword]);
+  }, [keyword, saveRecentKeyword]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
