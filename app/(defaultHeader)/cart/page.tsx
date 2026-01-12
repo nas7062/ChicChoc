@@ -3,8 +3,9 @@ export const dynamic = "force-dynamic";
 import CartItem from "@/app/components/CartItem";
 import ItemList from "@/app/components/ItemList";
 
-import { prisma } from "@/lib/prisma";
+
 export default async function CartPage() {
+  const { prisma } = await import("@/lib/prisma");
   const cartList = ['ads', 'asdas', 'sadsa']
 
   const items = await prisma.product.findMany({
