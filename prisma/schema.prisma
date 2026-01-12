@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
@@ -96,7 +97,7 @@ model Category {
 
 model ProductLike {
   id        Int      @id @default(autoincrement())
-  userId    Int
+  userId    String
   productId Int
 
   createdAt DateTime @default(now())

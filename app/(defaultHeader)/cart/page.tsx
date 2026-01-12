@@ -54,9 +54,7 @@ export default async function CartPage() {
       </div>
       <div className="flex flex-col gap-2">
         <p className="font-semibold text-sm">최근 본 상품</p>
-        <div className="grid grid-cols-3">
-          <ItemList items={items} />
-        </div>
+        <ItemList items={items} />
       </div>
       <div className="fixed bottom-4 left-0 right-0 flex justify-center px-4 z-50">
         <button

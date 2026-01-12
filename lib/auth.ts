@@ -4,6 +4,7 @@ import KakaoProvider from "next-auth/providers/kakao";
 import type { NextAuthOptions } from "next-auth";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { JWT } from "next-auth/jwt";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -78,6 +79,20 @@ export const authOptions: NextAuthOptions = {
       }
 
       return true;
+    },
+    async jwt({ token, user }: { token: JWT; user?: any }) {
+      // 로그인 시 최초 1회
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+
+    async session({ session, token }: { session: any; token: JWT }) {
+      if (session.user) {
+        session.user.id = token.id as number;
+      }
+      return session;
     },
   },
 
