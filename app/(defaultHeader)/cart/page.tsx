@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import CartItem from "@/app/components/CartItem";
 import ItemList from "@/app/components/ItemList";
 

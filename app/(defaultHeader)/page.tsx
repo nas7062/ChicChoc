@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+
+
 import Category from "../components/Category";
 import ItemList from "../components/ItemList";
 import Banner from "./_components/Banner";

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import ItemList from "@/app/components/ItemList";
 
 export default function LikePage() {

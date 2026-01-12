@@ -1,3 +1,4 @@
+
 import { Suspense } from "react";
 import SearchContent from "./_components/SearchContent";
 
