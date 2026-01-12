@@ -1,6 +1,5 @@
 export const dynamic = "force-dynamic";
 
-import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import ProductDetailClient from "./_components/ProductDetailClient";
 
@@ -16,6 +15,7 @@ export default async function ProductDetailPage({ params }: Props) {
     notFound();
   }
 
+  const { prisma } = await import("@/lib/prisma");
   const product = await prisma.product.findUnique({
     where: { id },
   });

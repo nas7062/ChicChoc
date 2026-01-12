@@ -1,9 +1,8 @@
 export const dynamic = "force-dynamic";
 
 import ItemList from "@/app/components/ItemList";
-import { prisma } from "@/lib/prisma";
 export default async function LikePage() {
-
+  const { prisma } = await import("@/lib/prisma");
   const items = await prisma.product.findMany({
     where: { isActive: true },
     orderBy: { createdAt: "desc" },
