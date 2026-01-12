@@ -2,29 +2,19 @@
 
 import Category from "@/app/components/Category";
 import SearchList from "@/app/components/SearchList";
+import { ISearchKeyword } from "@/app/type";
 import { X } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 
-export default function SearchContent() {
+export default function SearchContent({ popularSearch }: { popularSearch: ISearchKeyword[] }) {
+
   const searchParams = useSearchParams();
-
+  const router = useRouter();
   const keyword = searchParams.get("keyword");
   const category = searchParams.get("category");
-
-  const popularSearch = [
-    "인기 검색어 1",
-    "인기 검색어 2",
-    "인기 검색어 3",
-    "인기 검색어 4",
-    "인기 검색어 5",
-    "인기 검색어 6",
-    "인기 검색어 7",
-    "인기 검색어 8",
-    "인기 검색어 9",
-    "인기 검색어 10",
-  ];
+  const [mounted, setMounted] = useState(false);
   const [recentKeywords, setRecentKeywords] = useState<string[]>(() => {
 
     if (typeof window === "undefined") return [];
@@ -51,6 +41,25 @@ export default function SearchContent() {
     localStorage.removeItem("recentKeywords");
     setRecentKeywords([]);
   };
+  const isSearch = Boolean(keyword || category);
+
+  useEffect(() => {
+    if (!keyword) return;
+    saveRecentKeyword(keyword);
+  }, [keyword]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+  if (isSearch) return (
+    <div className="flex flex-col gap-2">
+      <p className="font-semibold text-sm"></p>
+      <SearchList keyword={keyword} category={category} />
+    </div>
+  )
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
@@ -66,6 +75,7 @@ export default function SearchContent() {
             <p
               key={search}
               className=" text-xs text-gray-500 border border-gray-300 rounded-xl pl-4 pr-6 py-1 hover:bg-gray-100 cursor-pointer"
+              onClick={() => router.push(`/search?keyword=${search}`)}
             >
               {search}
             </p>
@@ -82,21 +92,19 @@ export default function SearchContent() {
         <div className="flex flex-col flex-wrap gap-1 w-full h-52 ">
           {popularSearch.map((search, idx) => (
             <div
-              key={search}
+              key={search.id}
               className="flex items-center gap-2 hover:bg-gray-100 p-1 rounded-md cursor-pointer w-1/2"
+              onClick={() => router.push(`/search?keyword=${search}`)}
             >
               <p className="text-xs text-gray-500 w-6 h-6 flex items-center justify-center rounded-md bg-gray-100">
                 {idx + 1}
               </p>
-              <p className="text-xs text-gray-500 text-nowrap">{search}</p>
+              <p className="text-xs text-gray-500 text-nowrap">{search.keyword}</p>
             </div>
           ))}
         </div>
       </div>
-      <div className="flex flex-col gap-2">
-        <p className="font-semibold text-sm"></p>
-        <SearchList keyword={keyword} category={category} />
-      </div>
+
     </div>
   );
 }

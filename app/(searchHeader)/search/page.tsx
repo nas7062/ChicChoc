@@ -1,11 +1,13 @@
+export const dynamic = "force-dynamic";
 
-import { Suspense } from "react";
 import SearchContent from "./_components/SearchContent";
 
-export default function Page() {
-  return (
-    <Suspense fallback={<div>loading...</div>}>
-      <SearchContent />
-    </Suspense>
-  );
+export default async function SearchPage() {
+  const { prisma } = await import("@/lib/prisma");
+  const popularSearch = await prisma.searchKeyword.findMany({
+    orderBy: { count: "desc" },
+    take: 10,
+  });
+
+  return <SearchContent popularSearch={popularSearch} />;
 }
