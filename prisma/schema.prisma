@@ -5,38 +5,36 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  password  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  password      String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
 }
 
-
 model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-  refresh_token_expires_in    Int?
-  
+  id                       String  @id @default(cuid())
+  userId                   String
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String?
+  access_token             String?
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String?
+  session_state            String?
+  refresh_token_expires_in Int?
+
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
@@ -59,25 +57,24 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-
 model Product {
-  id            Int      @id @default(autoincrement())
-  title         String
-  slug          String   @unique
-  brand         String
-  imageUrl      String
-  price         Int
-  discountRate  Int
-  rating        Float    @default(0)
-  reviewCount   Int      @default(0)
-  stock         Int      @default(0)
-  isActive      Boolean  @default(true)
+  id           Int           @id @default(autoincrement())
+  title        String
+  slug         String        @unique
+  brand        String
+  imageUrl     String
+  price        Int
+  discountRate Int
+  rating       Float         @default(0)
+  reviewCount  Int           @default(0)
+  stock        Int           @default(0)
+  isActive     Boolean       @default(true)
+  likes        ProductLike[]
+  categoryId   Int
+  category     Category      @relation(fields: [categoryId], references: [id])
 
-  categoryId    Int
-  category      Category @relation(fields: [categoryId], references: [id])
-
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([categoryId])
   @@index([categoryId, price])
@@ -88,23 +85,22 @@ model Product {
 }
 
 model Category {
-  id       Int     @id @default(autoincrement())
+  id       Int       @id @default(autoincrement())
   name     String
-  slug     String  @unique
+  slug     String    @unique
   products Product[]
 }
 
-
 model ProductLike {
-  id        Int      @id @default(autoincrement())
+  id        Int    @id @default(autoincrement())
   userId    String
   productId Int
 
   createdAt DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@unique([userId, productId])
 }
-
 
 model SearchKeyword {
   id        String   @id @default(cuid())

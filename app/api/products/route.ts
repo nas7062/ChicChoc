@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
 export async function GET() {
   const { prisma } = await import("@/lib/prisma");
-
+  const session = await getServerSession(authOptions);
+  console.log("session:", session);
+  console.log("userId:", session?.user?.id);
   try {
     const items = await prisma.product.findMany({
       where: { isActive: true },
@@ -12,10 +15,16 @@ export async function GET() {
       take: 20,
       include: {
         category: true,
+        likes: session?.user
+          ? { where: { userId: session.user.id }, select: { id: true } }
+          : false,
       },
     });
-
-    return NextResponse.json({ items });
+    const mapped = items.map((item) => ({
+      ...item,
+      liked: session?.user ? item.likes.length > 0 : false,
+    }));
+    return NextResponse.json({ items: mapped });
   } catch (error) {
     console.error(error);
     return NextResponse.json(

@@ -1,48 +1,52 @@
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma"; // 가능하면 top-level import 추천
+
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export async function POST(
   req: Request,
   { params }: { params: { id: string } }
 ) {
-  const { prisma } = await import("@/lib/prisma");
   const session = await getServerSession(authOptions);
-
-  console.log(session);
-
   if (!session?.user?.id) {
-    return NextResponse.json(
-      { message: "로그인이 필요합니다" },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const productId = Number(params.id);
+  if (!Number.isFinite(productId)) {
+    return NextResponse.json({ error: "Invalid productId" }, { status: 400 });
   }
 
   const userId = session.user.id;
-  const productId = Number(params.id);
 
-  const exists = await prisma.productLike.findUnique({
-    where: {
-      userId_productId: {
-        userId,
-        productId,
+  try {
+    const existing = await prisma.productLike.findUnique({
+      where: {
+        userId_productId: { userId, productId },
       },
-    },
-  });
-
-  if (exists) {
-    // 좋아요 취소
-    await prisma.productLike.delete({
-      where: { id: exists.id },
+      select: { id: true },
     });
 
-    return NextResponse.json({ liked: false });
+    if (existing) {
+      await prisma.productLike.delete({
+        where: { id: existing.id },
+      });
+      return NextResponse.json({ liked: false });
+    }
+
+    await prisma.productLike.create({
+      data: { userId, productId },
+    });
+
+    return NextResponse.json({ liked: true });
+  } catch (e) {
+    console.error(e);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
-
-  // 좋아요 추가
-  await prisma.productLike.create({
-    data: { userId, productId },
-  });
-
-  return NextResponse.json({ liked: true });
 }

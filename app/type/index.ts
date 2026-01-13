@@ -9,6 +9,7 @@ export interface Product {
   reviewCount?: number;
   createdAt: Date;
   updatedAt: Date;
+  liked?: boolean;
 }
 
 export interface ISearchKeyword {

@@ -19,7 +19,7 @@ interface Props {
 
 export function Item({ item }: Props) {
   const router = useRouter()
-  const [liked, setLiked] = useState(true);
+  const [liked, setLiked] = useState(item.liked ?? false);
 
   const MoveDetail = () => {
     router.push(`/products/${item.id}`)
@@ -39,7 +39,7 @@ export function Item({ item }: Props) {
 
     const data = await res.json();
     setLiked(data.liked);
-    console.log(data.liked)
+
   };
 
   return (
@@ -53,7 +53,7 @@ export function Item({ item }: Props) {
           height={300}
           className=" rouned-2xl overflow-hidden w-full h-52 hover:scale-110 transition-transform duration-300"
         />
-        <button onClick={toggleLike}>
+        <button type="button" onClick={toggleLike}>
           <Heart className={`absolute  w-5 h-5 bottom-2 right-2 cursor-pointer ${liked ? "text-red-500  fill-red-500" : "text-gray-300 fill-gray-300"}`} />
         </button>
       </CardHeader>
