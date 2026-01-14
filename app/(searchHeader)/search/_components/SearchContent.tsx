@@ -6,6 +6,7 @@ import { ISearchKeyword } from "@/app/type";
 import { X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { CategorySmall } from "./CategorySmall";
 
 
 export default function SearchContent({ popularSearch }: { popularSearch: ISearchKeyword[] }) {
@@ -59,7 +60,7 @@ export default function SearchContent({ popularSearch }: { popularSearch: ISearc
   if (!mounted) return null;
   if (isSearch) return (
     <div className="flex flex-col gap-2">
-      <p className="font-semibold text-sm"></p>
+      <CategorySmall />
       <SearchList keyword={keyword} category={category} />
     </div>
   )
