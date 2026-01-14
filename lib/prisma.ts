@@ -4,25 +4,23 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-// DATABASE_URL / DIRECT_URL 선택 로직
-const databaseUrl =
-  process.env.NODE_ENV === "production"
-    ? process.env.DIRECT_URL
-    : process.env.DATABASE_URL;
+//  런타임은 DATABASE_URL 우선 (없으면 DIRECT_URL fallback)
+const databaseUrl = process.env.DATABASE_URL ?? process.env.DIRECT_URL;
+
+if (!databaseUrl) {
+  throw new Error(
+    "Missing DATABASE_URL (or DIRECT_URL). Set it in your deployment/CI environment variables."
+  );
+}
 
 export const prisma =
   globalForPrisma.prisma ??
   new PrismaClient({
     datasources: {
-      db: {
-        url: databaseUrl,
-      },
+      db: { url: databaseUrl },
     },
     log:
       process.env.NODE_ENV === "development" ? ["query", "error"] : ["error"],
   });
 
-// Next.js dev HMR 대응
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
-}
+if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
