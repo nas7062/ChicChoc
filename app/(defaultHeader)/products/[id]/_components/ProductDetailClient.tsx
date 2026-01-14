@@ -10,6 +10,7 @@ import ReviewSection from "./ReviewSection";
 import RecoSection from "./RecoSection";
 import InquirySection from "./InquirySection";
 import { Product } from "@/app/type";
+import ViewedTracker from "./ViewedTraker";
 
 
 export default function ProductDetailClient({ product }: { product: Product }) {
@@ -57,6 +58,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           {selectedTab === "inquiry" && <InquirySection />}
         </section>
       </div>
+      <ViewedTracker product={product} />
     </div>
   );
 }

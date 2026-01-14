@@ -7,6 +7,7 @@ import { X } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { CategorySmall } from "./CategorySmall";
+import RecentItemList from "@/app/components/RecentItemList";
 
 
 export default function SearchContent({ popularSearch }: { popularSearch: ISearchKeyword[] }) {
@@ -109,7 +110,7 @@ export default function SearchContent({ popularSearch }: { popularSearch: ISearc
           ))}
         </div>
       </div>
-
+      <RecentItemList />
     </div>
   );
 }
