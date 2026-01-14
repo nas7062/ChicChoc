@@ -1,5 +1,4 @@
 export const dynamic = "force-dynamic";
-export const fetchCache = "force-no-store";
 import { getServerSession } from "next-auth";
 import Category from "../components/Category";
 import ItemList from "../components/ItemList";
