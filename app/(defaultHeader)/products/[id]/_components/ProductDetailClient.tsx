@@ -11,12 +11,13 @@ import RecoSection from "./RecoSection";
 import InquirySection from "./InquirySection";
 import { Product } from "@/app/type";
 import ViewedTracker from "./ViewedTraker";
+import BottomSheet from "@/app/components/BottomSheet";
 
 
 export default function ProductDetailClient({ product }: { product: Product }) {
   const [selectedTab, setSelectedTab] = useState<TabKey>("info");
   const [liked, setLiked] = useState(product.liked ?? false);
-
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleLike = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -33,6 +34,14 @@ export default function ProductDetailClient({ product }: { product: Product }) {
     const data = await res.json();
     setLiked(data.liked);
 
+  };
+
+  const handleBuy = () => {
+    setIsOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsOpen(false); // 모달 닫기
   };
   return (
     <div className="flex flex-col gap-4 relative  ">
@@ -87,8 +96,9 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         <button type="button" onClick={toggleLike}>
           <Heart className={`w-6 h-6 cursor-pointer ${liked ? "text-red-500  fill-red-500" : "text-gray-300 fill-gray-300"}`} />
         </button>
-        <button className="flex-1 bg-blue-400 hover:bg-blue-500 px-2 text-white rounded-md cursor-pointer transition-colors duration-300">구매하기</button>
+        <button onClick={handleBuy} className="flex-1 bg-blue-400 hover:bg-blue-500 px-2 text-white rounded-md cursor-pointer transition-colors duration-300">구매하기</button>
       </div>
+      {isOpen && <BottomSheet isOpen={isOpen} onClose={handleClose} />}
       <ViewedTracker product={product} />
     </div>
   );
