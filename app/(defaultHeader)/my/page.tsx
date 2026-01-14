@@ -1,4 +1,5 @@
 "use client";
+import RecentItemList from "@/app/components/RecentItemList";
 import { BadgeRussianRuble, List, LogOut, SquareChartGantt } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 
@@ -64,6 +65,7 @@ export default function MyPage() {
           );
         })}
       </div>
+      <RecentItemList />
     </div>
   );
 }
