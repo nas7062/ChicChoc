@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Star } from "lucide-react";
+import { Heart, Star } from "lucide-react";
 import Image from "next/image";
 import Tabs, { TabKey } from "./Tabs";
 import InfoSection from "./InfoSection";
@@ -15,9 +15,27 @@ import ViewedTracker from "./ViewedTraker";
 
 export default function ProductDetailClient({ product }: { product: Product }) {
   const [selectedTab, setSelectedTab] = useState<TabKey>("info");
+  const [liked, setLiked] = useState(product.liked ?? false);
 
+
+  const toggleLike = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
+    const res = await fetch(`/api/products/${product.id}/like`, {
+      method: "POST",
+    });
+
+    if (res.status === 401) {
+      alert("로그인이 필요합니다");
+      return;
+    }
+
+    const data = await res.json();
+    setLiked(data.liked);
+
+  };
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 relative  ">
       <Image
         src={product.imageUrl ?? "/bannerImage1.jpg"}
         alt={product.title}
@@ -57,6 +75,20 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           {selectedTab === "reco" && <RecoSection />}
           {selectedTab === "inquiry" && <InquirySection />}
         </section>
+      </div>
+      <div className="flex fixed bottom-0   max-w-[640px]  w-full bg-gray-50 rounded-md border border-gray-100 shadow gap-4">
+        <div className="flex flex-col gap-1 justify-center  p-1 cursor-pointer">
+          <p className="mx-auto text-xs">리뷰</p>
+          <div className="flex items-center">
+            <Star className="text-gray-300 w-4 h-4" />
+            <p className="text-xs">{product.rating}</p>
+            <p className="text-xs">({product.reviewCount})</p>
+          </div>
+        </div>
+        <button type="button" onClick={toggleLike}>
+          <Heart className={`w-6 h-6 cursor-pointer ${liked ? "text-red-500  fill-red-500" : "text-gray-300 fill-gray-300"}`} />
+        </button>
+        <button className="flex-1 bg-blue-400 hover:bg-blue-500 text-white rounded-md cursor-pointer transition-colors duration-300">구매하기</button>
       </div>
       <ViewedTracker product={product} />
     </div>
