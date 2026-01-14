@@ -76,11 +76,10 @@ export default function ProductDetailClient({ product }: { product: Product }) {
           {selectedTab === "inquiry" && <InquirySection />}
         </section>
       </div>
-      <div className="flex fixed bottom-0   max-w-[640px]  w-full bg-gray-50 rounded-md border border-gray-100 shadow gap-4">
+      <div className="flex fixed bottom-0   max-w-[640px]  w-full bg-gray-50 rounded-sm border border-gray-100 shadow  gap-1 sm:gap-4 px-4 sm:px-0">
         <div className="flex flex-col gap-1 justify-center  p-1 cursor-pointer">
           <p className="mx-auto text-xs">리뷰</p>
-          <div className="flex items-center">
-            <Star className="text-gray-300 w-4 h-4" />
+          <div className="flex items-center justify-center gap-1">
             <p className="text-xs">{product.rating}</p>
             <p className="text-xs">({product.reviewCount})</p>
           </div>
@@ -88,7 +87,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         <button type="button" onClick={toggleLike}>
           <Heart className={`w-6 h-6 cursor-pointer ${liked ? "text-red-500  fill-red-500" : "text-gray-300 fill-gray-300"}`} />
         </button>
-        <button className="flex-1 bg-blue-400 hover:bg-blue-500 text-white rounded-md cursor-pointer transition-colors duration-300">구매하기</button>
+        <button className="flex-1 bg-blue-400 hover:bg-blue-500 px-2 text-white rounded-md cursor-pointer transition-colors duration-300">구매하기</button>
       </div>
       <ViewedTracker product={product} />
     </div>
