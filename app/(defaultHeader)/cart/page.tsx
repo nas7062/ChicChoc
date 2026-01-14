@@ -1,8 +1,12 @@
-export const dynamic = "force-dynamic";
 
 import CartItem from "@/app/components/CartItem";
 import ItemList from "@/app/components/ItemList";
+import dynamic from "next/dynamic";
 
+const RecentItemListClientOnly = dynamic(
+  () => import("@/app/components/RecentItemList"),
+  { ssr: false }
+);
 
 export default async function CartPage() {
   const { prisma } = await import("@/lib/prisma");
@@ -53,8 +57,7 @@ export default async function CartPage() {
         </div>
       </div>
       <div className="flex flex-col gap-2">
-        <p className="font-semibold text-sm">최근 본 상품</p>
-        <ItemList items={items} />
+        <RecentItemListClientOnly />
       </div>
       <div className="fixed bottom-4 left-0 right-0 flex justify-center px-4 z-50">
         <button

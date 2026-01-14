@@ -5,7 +5,7 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  directUrl = env("SESSION_URL")
 }
 
 model User {
@@ -19,6 +19,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  likes ProductLike[] 
+  carts Cart[]
 }
 
 model Account {
@@ -73,7 +75,7 @@ model Product {
   likes        ProductLike[]
   categoryId   Int
   category     Category      @relation(fields: [categoryId], references: [id])
-
+  carts Cart[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -98,9 +100,12 @@ model ProductLike {
   productId Int
 
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 
-  @@unique([userId, productId])
+   @@unique([userId, productId])
+  @@index([userId])
+  @@index([productId])
 }
 
 model SearchKeyword {
@@ -110,3 +115,18 @@ model SearchKeyword {
   updatedAt DateTime @updatedAt
   createdAt DateTime @default(now())
 }
+
+
+model Cart {
+  id  String   @id @default(cuid())
+  userId    String
+  productId Int
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  @@unique([userId, productId])
+}
+

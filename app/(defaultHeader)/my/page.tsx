@@ -50,7 +50,7 @@ export default function MyPage() {
 
       <div className="w-full h-1 bg-gray-200" />
 
-      <div className="flex flex-col">
+      <div className="flex flex-col ">
         {MyList.map((list) => {
           const Icon = list.icon;
           return (
@@ -65,7 +65,10 @@ export default function MyPage() {
           );
         })}
       </div>
-      <RecentItemList />
+      <div className="w-full h-1 bg-gray-200" />
+      <div className="py-2">
+        <RecentItemList />
+      </div>
     </div>
   );
 }
