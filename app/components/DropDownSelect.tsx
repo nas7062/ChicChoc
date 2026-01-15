@@ -1,35 +1,49 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
+import { COLOR, SIZE } from "../constant";
 
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+const OPTIONS = {
+  size: SIZE,
+  color: COLOR
+};
 
-export function DropDownSelect() {
-  const [position, setPosition] = React.useState("bottom")
+export default function DropDownSelect({ option }: { option: "size" | "color" }) {
+  const [open, setOpen] = useState(false);
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open</Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuRadioGroup value={position} onValueChange={setPosition}>
-          <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
-        </DropdownMenuRadioGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
+    <motion.div layout className="border rounded-md overflow-hidden">
+      {/* 버튼 */}
+      <button
+        onClick={() => setOpen((prev) => !prev)}
+        className="w-full p-3 text-left font-medium"
+      >
+        {option.toUpperCase()}
+      </button>
+
+      {/* 드롭다운 */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            layout
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            className="overflow-hidden"
+          >
+            {OPTIONS[option].map((item) => (
+              <label
+                key={item}
+                className="block px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer"
+              >
+                {item}
+              </label>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
 }

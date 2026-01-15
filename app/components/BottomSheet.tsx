@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
+import DropDownSelect from "./DropDownSelect";
 
 const BottomSheet = ({ isOpen = false, onClose }: { isOpen: boolean, onClose: () => void }) => {
 
   return (
     <div
-      className="fixed top-0 bottom-0 left-0 right-0 flex items-end justify-center bg-black/40 bg-opacity-50 z-50"
+      className="fixed top-0 bottom-0 left-0 right-0 flex items-end justify-center bg-black/40 bg-opacity-50 z-10"
       onClick={onClose} // 배경 클릭 시 바텀 시트 닫기
     >
       {/* BottomSheet 컴포넌트 */}
@@ -17,8 +18,9 @@ const BottomSheet = ({ isOpen = false, onClose }: { isOpen: boolean, onClose: ()
         style={{ height: "60vh" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-4">
-          
+        <div className="p-4 flex flex-col gap-2">
+          <DropDownSelect option="size" />
+          <DropDownSelect option="color" />
         </div>
       </motion.div>
     </div>

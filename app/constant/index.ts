@@ -21,3 +21,6 @@ export const Categories: Category[] = [
 ];
 
 export const RECENT_KEY = "recentViewedProducts";
+
+export const SIZE = ["S", "M", "L", "XL"];
+export const COLOR = ["RED", "BLACK", "GRAY", "NAVY", "WHITE"];
