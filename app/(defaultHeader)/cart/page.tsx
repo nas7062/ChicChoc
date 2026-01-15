@@ -38,8 +38,6 @@ export default async function CartPage() {
   return (
     <div className="flex flex-col gap-4">
       <div className="bg-gray-100 p-4 flex flex-col gap-2">
-        <CartItem />
-        <CartItem />
       </div>
       <div className="bg-gray-100 p-4 flex flex-col gap-2">
         <p className="font-semibold">결제 예상 금액</p>
