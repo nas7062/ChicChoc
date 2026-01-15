@@ -27,7 +27,7 @@ export default function DropDownSelect({
       <button
         type="button"
         onClick={() => setOpen((p) => !p)}
-        className="w-full p-3 text-left font-medium cursor-pointer"
+        className="w-full p-2 text-left text-sm font-medium cursor-pointer"
       >
         {value ? `${option.toUpperCase()}: ${value}` : option.toUpperCase()}
       </button>

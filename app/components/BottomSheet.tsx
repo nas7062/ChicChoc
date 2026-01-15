@@ -1,14 +1,40 @@
 "use client"
 import { motion } from "framer-motion";
 import DropDownSelect from "./DropDownSelect";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CartItem from "./CartItem";
 
-const BottomSheet = ({ isOpen = false, onClose }: { isOpen: boolean, onClose: () => void }) => {
-  const [size, setSize] = useState<string>();
-  const [color, setColor] = useState<string>();
 
+export type CartOptionItem = {
+  id: string;
+  size: string;
+  color: string;
+  count: number;
+};
+
+const BottomSheet = ({ isOpen = false, onClose }: { isOpen: boolean, onClose: () => void }) => {
+  const [size, setSize] = useState<string>('');
+  const [color, setColor] = useState<string>('');
+  const [items, setItems] = useState<CartOptionItem[]>([]);
+  const totalPrice = items.reduce((prev, item) => prev + item.count * 63000, 0);
   const canAdd = !!size && !!color;
+
+  const confirmOption = () => {
+    if (!canAdd) return;
+
+    setItems((prev) => [
+      ...prev,
+      { id: crypto.randomUUID(), size: size!, color: color!, count: 1 },
+    ]);
+
+    setSize('');
+    setColor('');
+  };
+
+  const removeItem = (id: string) => {
+    setItems((prev) => prev.filter((it) => it.id !== id));
+  };
+
 
   const addToCart = () => {
     if (!canAdd) return;
@@ -23,6 +49,10 @@ const BottomSheet = ({ isOpen = false, onClose }: { isOpen: boolean, onClose: ()
     const payload = { size, color };
     console.log(payload);
   };
+  useEffect(() => {
+    if (size && color) confirmOption();
+  }, [size, color]);
+
   return (
     <div
       className="fixed top-0 bottom-0 left-0 right-0 flex items-end justify-center bg-black/40 bg-opacity-50 z-10"
@@ -44,8 +74,30 @@ const BottomSheet = ({ isOpen = false, onClose }: { isOpen: boolean, onClose: ()
         </div>
 
         {
-          canAdd && <>
-            <CartItem />
+          items.length > 0 && <>
+            <div className="flex flex-col gap-4 px-0 overflow-auto">
+              {items.map((item) => (
+                <CartItem
+                  key={item.id}
+                  item={item}
+                  onChangeCount={(nextCount) =>
+                    setItems((prev) =>
+                      prev.map((it) =>
+                        it.id === item.id ? { ...it, count: nextCount } : it
+                      )
+                    )
+                  }
+                  onRemove={() => removeItem(item.id)}
+                />
+              ))}
+            </div>
+            <div>
+              <div className="flex justify-between p-4">
+                <p>총 금액</p>
+                <p className="text-xl text-blue-500">{totalPrice.toLocaleString()}원</p>
+              </div>
+            </div>
+
             <div className="mt-auto flex  gap-2 w-full px-4 py-2">
               <button onClick={addToCart} className="flex-1 rounded-2xl text-sm text-white font-semibold  bg-black cursor-pointer hover:bg-gray-700 transition-colors duration-300 py-2">장바구니</button>
               <button onClick={addToBuy} className="flex-1 rounded-2xl text-sm bg-blue-400 text-white font-semibold cursor-pointer hover:bg-blue-500 transition-colors duration-300 py-2">바로구매</button>
