@@ -6,23 +6,32 @@ import { COLOR, SIZE } from "../constant";
 
 const OPTIONS = {
   size: SIZE,
-  color: COLOR
-};
+  color: COLOR,
+} as const;
 
-export default function DropDownSelect({ option }: { option: "size" | "color" }) {
+type Option = keyof typeof OPTIONS;
+
+export default function DropDownSelect({
+  option,
+  value,
+  onChange,
+}: {
+  option: Option;
+  value?: string;
+  onChange: (v: string) => void;
+}) {
   const [open, setOpen] = useState(false);
 
   return (
     <motion.div layout className="border rounded-md overflow-hidden">
-      {/* 버튼 */}
       <button
-        onClick={() => setOpen((prev) => !prev)}
-        className="w-full p-3 text-left font-medium"
+        type="button"
+        onClick={() => setOpen((p) => !p)}
+        className="w-full p-3 text-left font-medium cursor-pointer"
       >
-        {option.toUpperCase()}
+        {value ? `${option.toUpperCase()}: ${value}` : option.toUpperCase()}
       </button>
 
-      {/* 드롭다운 */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -34,12 +43,17 @@ export default function DropDownSelect({ option }: { option: "size" | "color" })
             className="overflow-hidden"
           >
             {OPTIONS[option].map((item) => (
-              <label
+              <button
                 key={item}
-                className="block px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer"
+                type="button"
+                onClick={() => {
+                  onChange(item);
+                  setOpen(false);
+                }}
+                className="block w-full text-left px-3 py-2 text-sm hover:bg-gray-100 cursor-pointer"
               >
                 {item}
-              </label>
+              </button>
             ))}
           </motion.div>
         )}

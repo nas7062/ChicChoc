@@ -1,15 +1,21 @@
 
 
+import { Minus, Plus } from "lucide-react";
 import Image from "next/image";
 
 export default function CartItem() {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 px-4">
       <div className="flex gap-2">
         <Image src={"/bannerImage1.jpg"} alt="아이템" width={60} height={60} className="aspect-square rounded-md" />
         <div className="flex flex-col gap-1">
           <p className="text-xs font-semibold">스파오</p>
           <p className="text-xs text-gray-500">[앨리스펑크PICK💖] 파스텔 푸퍼_SPJPF4TG01</p>
+          <div className="flex gap-1">
+            <button className="cursor-pointer"><Minus /></button>
+            <p className="border py-1 px-3 border-gray-200 rounded-md">1</p>
+            <button className="cursor-pointer"><Plus /></button>
+          </div>
         </div>
       </div>
       <div className="bg-gray-200 w-full flex justify-between px-2 py-1 items-center">
