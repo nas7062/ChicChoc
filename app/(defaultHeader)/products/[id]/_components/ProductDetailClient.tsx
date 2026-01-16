@@ -98,7 +98,7 @@ export default function ProductDetailClient({ product }: { product: Product }) {
         </button>
         <button onClick={handleBuy} className="flex-1 bg-blue-400 hover:bg-blue-500 px-2 text-white rounded-md cursor-pointer transition-colors duration-300">구매하기</button>
       </div>
-      {isOpen && <BottomSheet isOpen={isOpen} onClose={handleClose} />}
+      {isOpen && <BottomSheet isOpen={isOpen} onClose={handleClose} product={product} />}
       <ViewedTracker product={product} />
     </div>
   );

@@ -4,45 +4,56 @@ import { motion } from "framer-motion";
 import DropDownSelect from "./DropDownSelect";
 import { useRef, useState } from "react";
 import CartItem from "./CartItem";
+import { addToCartAction } from "../actions/cart";
+import { Product } from "../type";
 
 export type CartOptionItem = {
-  id: string;
+  key: string;
+  productId: number;
   size: string;
   color: string;
-  count: number;
+  quantity: number;
+  image: string;
+  price: number;
 };
 
 const BottomSheet = ({
   isOpen = false,
   onClose,
+  product
 }: {
   isOpen: boolean;
   onClose: () => void;
+  product: Product
 }) => {
+
   const [size, setSize] = useState<string>("");
   const [color, setColor] = useState<string>("");
   const [items, setItems] = useState<CartOptionItem[]>([]);
-  const totalPrice = items.reduce((prev, item) => prev + item.count * 63000, 0);
-
+  const totalPrice = items.reduce((prev, item) => prev + item.quantity * product.price * 0.9, 0);
 
   const lastAddedKeyRef = useRef<string>("");
 
   const confirmOption = (nextSize: string, nextColor: string) => {
     if (!nextSize || !nextColor) return;
 
-    const key = `${nextSize}__${nextColor}`;
+    const key = `${product.id}__${nextSize}__${nextColor}`;
     if (lastAddedKeyRef.current === key) return;
     lastAddedKeyRef.current = key;
 
-    setItems((prev) => [
-      ...prev,
-      { id: crypto.randomUUID(), size: nextSize, color: nextColor, count: 1 },
-    ]);
+    setItems((prev) => {
+      const exists = prev.find((it) => it.key === key);
+      if (exists) {
+        return prev.map((it) => (it.key === key ? { ...it, quantity: it.quantity + 1 } : it));
+      }
+      return [
+        ...prev,
+        { key, productId: product.id, size: nextSize, color: nextColor, quantity: 1, image: product.imageUrl, price: product.price },
+      ];
+    });
 
-    // 선택 초기화
     setSize("");
     setColor("");
-
 
     setTimeout(() => {
       lastAddedKeyRef.current = "";
@@ -59,12 +70,22 @@ const BottomSheet = ({
     if (size && next) confirmOption(size, next);
   };
 
-  const removeItem = (id: string) => {
-    setItems((prev) => prev.filter((it) => it.id !== id));
+  const removeItem = (key: string) => {
+    setItems((prev) => prev.filter((it) => it.key !== key));
   };
 
-  const addToCart = () => {
-    console.log(items);
+  const addToCart = async () => {
+    await addToCartAction(
+      items.map((it) => ({
+        key: it.key,
+        productId: it.productId,
+        size: it.size,
+        color: it.color,
+        quantity: it.quantity,
+        image: it.image,
+        price: it.price
+      }))
+    );
   };
 
   const addToBuy = () => {
@@ -95,16 +116,16 @@ const BottomSheet = ({
             <div className="flex flex-col gap-4 px-0 overflow-auto">
               {items.map((item) => (
                 <CartItem
-                  key={item.id}
+                  key={item.key}
                   item={item}
                   onChangeCount={(nextCount) =>
                     setItems((prev) =>
                       prev.map((it) =>
-                        it.id === item.id ? { ...it, count: nextCount } : it
+                        it.key === item.key ? { ...it, quantity: nextCount } : it
                       )
                     )
                   }
-                  onRemove={() => removeItem(item.id)}
+                  onRemove={() => removeItem(item.key)}
                 />
               ))}
             </div>
