@@ -1,6 +1,5 @@
 
 import { getCartAction } from "@/app/actions/cart";
-import ItemList from "@/app/components/ItemList";
 import dynamic from "next/dynamic";
 import CartListClient from "./_components/CartListClient";
 
@@ -10,15 +9,10 @@ const RecentItemListClientOnly = dynamic(
 );
 
 export default async function CartPage() {
-  const { prisma } = await import("@/lib/prisma");
 
-  const items = await prisma.product.findMany({
-    where: { isActive: true },
-    orderBy: { createdAt: "desc" },
-    take: 20,
-  });
   const cartList = await getCartAction();
-
+  const totalPrice = cartList.reduce((prev, item) => prev + item.price * item.quantity * 0.9, 0);
+  const deliveryFee = totalPrice > 100000 ? 0 : 3000;
   if (cartList.length === 0)
     return (
       <div className="w-full">
@@ -44,15 +38,15 @@ export default async function CartPage() {
         <p className="font-semibold">결제 예상 금액</p>
         <div className="flex justify-between text-xs">
           <p>상품금액</p>
-          <p>{Number(63000).toLocaleString()}</p>
+          <p>{Number(totalPrice).toLocaleString()}</p>
         </div>
         <div className="flex justify-between text-xs">
           <p>배송금액</p>
-          <p>{Number(3000).toLocaleString()}</p>
+          <p>{Number(deliveryFee).toLocaleString()}</p>
         </div>
         <div className="flex justify-between text-sm">
           <p>총 결제 금액</p>
-          <p className="text-lg text-blue-400">{Number(66000).toLocaleString()}</p>
+          <p className="text-lg text-blue-400">{Number(totalPrice - deliveryFee).toLocaleString()}</p>
         </div>
       </div>
       <div className="flex flex-col gap-2">
@@ -69,7 +63,7 @@ export default async function CartPage() {
       cursor-pointer
     "
         >
-          63,000원 구매하기
+          {totalPrice.toLocaleString()}원 구매하기
         </button>
       </div>
     </div>
