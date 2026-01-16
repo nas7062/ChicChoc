@@ -28,8 +28,14 @@ export type CartItem = {
   quantity: number;
 };
 
-export type ProductInCart = Product & {
+export type ProductInCart = {
   cartItemId: string;
+  productId: number;
+  title: string;
+  imageUrl: string;
+  price: number;
+  discountRate: number;
+  brand: string;
   size: string;
   color: string;
   quantity: number;
