@@ -16,9 +16,9 @@ export async function POST(req: Request) {
     const result = await addItemsToCart(userId, body.items);
 
     return NextResponse.json(result);
-  } catch (e: any) {
+  } catch (e) {
     return NextResponse.json(
-      { ok: false, message: e?.message ?? "Unknown error" },
+      { ok: false, message: "Unknown error" },
       { status: 400 }
     );
   }
