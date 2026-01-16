@@ -19,3 +19,18 @@ export interface ISearchKeyword {
   updatedAt: Date;
   createdAt: Date;
 }
+
+export type CartItem = {
+  cartItemId: string;
+  productId: number;
+  size: string;
+  color: string;
+  quantity: number;
+};
+
+export type ProductInCart = Product & {
+  cartItemId: string;
+  size: string;
+  color: string;
+  quantity: number;
+};

@@ -2,15 +2,15 @@
 
 import { Minus, Plus, X } from "lucide-react";
 import Image from "next/image";
-import { CartOptionItem } from "./BottomSheet";
+import { ProductInCart } from "../type";
 
 interface Props {
-  item: CartOptionItem,
+  item: ProductInCart,
   onChangeCount: (next: number) => void;
   onRemove: () => void;
 }
 
-export default function CartItem({ item, onChangeCount, onRemove }: Props) {
+export default function CartViewItem({ item, onChangeCount, onRemove }: Props) {
   return (
     <div className="flex flex-col gap-4 px-4">
       <div className="flex gap-2">

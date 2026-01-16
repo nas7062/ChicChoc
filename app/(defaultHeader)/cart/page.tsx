@@ -1,7 +1,8 @@
 
-import CartItem from "@/app/components/CartItem";
+import { getCartAction } from "@/app/actions/cart";
 import ItemList from "@/app/components/ItemList";
 import dynamic from "next/dynamic";
+import CartListClient from "./_components/CartListClient";
 
 const RecentItemListClientOnly = dynamic(
   () => import("@/app/components/RecentItemList"),
@@ -10,13 +11,14 @@ const RecentItemListClientOnly = dynamic(
 
 export default async function CartPage() {
   const { prisma } = await import("@/lib/prisma");
-  const cartList = ['ads', 'asdas', 'sadsa']
 
   const items = await prisma.product.findMany({
     where: { isActive: true },
     orderBy: { createdAt: "desc" },
     take: 20,
   });
+  const cartList = await getCartAction();
+
   if (cartList.length === 0)
     return (
       <div className="w-full">
@@ -29,15 +31,14 @@ export default async function CartPage() {
         </div>
         <div className="flex flex-col gap-2">
           <p className="font-semibold text-sm">최근 본 상품</p>
-          <div className="grid grid-cols-3">
-            <ItemList items={items} />
-          </div>
+          <RecentItemListClientOnly />
         </div>
       </div>
     );
   return (
     <div className="flex flex-col gap-4">
       <div className="bg-gray-100 p-4 flex flex-col gap-2">
+        <CartListClient initialItems={cartList} />
       </div>
       <div className="bg-gray-100 p-4 flex flex-col gap-2">
         <p className="font-semibold">결제 예상 금액</p>
