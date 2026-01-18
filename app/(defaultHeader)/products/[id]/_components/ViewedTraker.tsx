@@ -2,28 +2,34 @@
 
 import { RECENT_KEY } from "@/app/constant";
 import { Product } from "@/app/type";
-import { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useEffect, useMemo } from "react";
 
 
 const MAX = 20;
 
 export default function ViewedTracker({ product }: { product: Product }) {
+  const { data: session } = useSession();
+  const storageKey = useMemo(() => {
+    return session?.user?.id
+      ? `${RECENT_KEY}:${session.user.id}`
+      : `${RECENT_KEY}:guest`;
+  }, [session?.user?.id]);
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(RECENT_KEY);
-      const list: Product[] = raw ? JSON.parse(raw) : [];
+      const saved = JSON.parse(localStorage.getItem(storageKey) || "[]");
+      const list: Product[] = Array.isArray(saved) ? saved : [];
 
-      // 기존에 있으면 제거하고 맨 앞으로
-      const next = [
+      const next: Product[] = [
         { ...product, viewedAt: Date.now() },
         ...list.filter((p) => p.id !== product.id),
       ].slice(0, MAX);
 
-      localStorage.setItem(RECENT_KEY, JSON.stringify(next));
+      localStorage.setItem(storageKey, JSON.stringify(next));
     } catch (e) {
       console.error(e);
     }
-  }, [product.id]);
+  }, [product.id, storageKey]);
 
   return null;
 }
