@@ -2,7 +2,6 @@
 import RecentItemList from "@/app/components/RecentItemList";
 import { BadgeRussianRuble, List, LogOut, SquareChartGantt } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 
 const MyList = [
   { label: "주문 내역", icon: List },
@@ -16,7 +15,7 @@ const MyList = [
 ];
 
 export default function MyPage() {
-  const router = useRouter();
+
   const { data: session, status } = useSession();
   if (status === "loading") return null;
 
