@@ -2,6 +2,7 @@
 import RecentItemList from "@/app/components/RecentItemList";
 import { BadgeRussianRuble, List, LogOut, SquareChartGantt } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const MyList = [
   { label: "주문 내역", icon: List },
@@ -15,24 +16,19 @@ const MyList = [
 ];
 
 export default function MyPage() {
+  const router = useRouter();
   const { data: session, status } = useSession();
-  console.log(session)
   if (status === "loading") return null;
 
   const handleClick = async (item: (typeof MyList)[number]) => {
     if (item.action !== "logout") return;
 
     try {
-      // 커스텀 JWT 쿠키 삭제
-      await fetch("/api/auth/logout", {
-        method: "POST",
-        credentials: "include",
-      });
-
       // NextAuth 세션 종료
       await signOut({
         callbackUrl: "/auth/signin",
       });
+
     } catch (e) {
       console.error("logout failed", e);
     }

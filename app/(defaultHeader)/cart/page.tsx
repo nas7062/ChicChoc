@@ -24,7 +24,6 @@ export default async function CartPage() {
           </button>
         </div>
         <div className="flex flex-col gap-2">
-          <p className="font-semibold text-sm">최근 본 상품</p>
           <RecentItemListClientOnly />
         </div>
       </div>

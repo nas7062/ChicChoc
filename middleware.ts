@@ -61,5 +61,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/my", "/cart"],
+  matcher: ["/my", "/cart", "/like"],
 };

@@ -2,14 +2,12 @@
 import InputField from "@/app/components/InputField";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function EamilLoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
   const isEmailValid = /\S+@\S+\.\S+/.test(email);
   const isPasswordValid = password.length >= 6;
   const isDisabled = !isEmailValid || !isPasswordValid || isLoading;
@@ -21,7 +19,7 @@ export default function EamilLoginPage() {
       const result = await signIn("credentials", {
         email,
         password,
-        redirect: false,
+        callbackUrl: "/",
       });
 
       if (result?.error) {
@@ -29,7 +27,7 @@ export default function EamilLoginPage() {
         return;
       }
 
-      router.replace("/");
+
     } finally {
       setIsLoading(false);
     }

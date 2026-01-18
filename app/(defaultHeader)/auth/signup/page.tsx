@@ -26,7 +26,7 @@ export default function SingUpPage() {
         },
         body: JSON.stringify({ email, password, name }),
       });
-      if (response.status === 201) router.replace('/')
+      if (response.status === 201) router.replace('/signin')
     } finally {
       setIsLoading(false);
     }
