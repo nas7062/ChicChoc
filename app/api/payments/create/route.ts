@@ -20,7 +20,6 @@ export async function POST(req: Request) {
       amount,
       orderName: "샘플 주문",
       status: "PENDING",
-      // 로그인 안 했으면 null  
       userId: session?.user?.id,
       userEmail: session?.user?.email,
     },
