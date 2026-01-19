@@ -12,7 +12,7 @@ interface Props {
 
 export default function CartViewItem({ item, onChangeCount, onRemove }: Props) {
   return (
-    <div className="flex flex-col gap-4 px-4">
+    <div className="flex flex-col gap-4 ">
       <div className="flex gap-2">
         <Image src={"/bannerImage1.jpg"} alt="아이템" width={60} height={60} className="aspect-square rounded-md" />
         <div className="flex flex-col gap-1 relative flex-1">

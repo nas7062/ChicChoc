@@ -45,7 +45,7 @@ export default async function CartPage() {
         </div>
         <div className="flex justify-between text-sm">
           <p>총 결제 금액</p>
-          <p className="text-lg text-blue-400">{Number(totalPrice - deliveryFee).toLocaleString()}</p>
+          <p className="text-lg text-blue-400">{Number(totalPrice + deliveryFee).toLocaleString()}</p>
         </div>
       </div>
       <div className="flex flex-col gap-2">
@@ -62,7 +62,7 @@ export default async function CartPage() {
       cursor-pointer
     "
         >
-          {totalPrice.toLocaleString()}원 구매하기
+          {Number(totalPrice + deliveryFee).toLocaleString()}원 구매하기
         </button>
       </div>
     </div>
