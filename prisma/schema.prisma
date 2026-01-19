@@ -146,3 +146,30 @@ model CartItem {
   @@unique([cartId, productId, size, color])
   @@index([productId])
 }
+model Order {
+  id            String      @id @default(cuid())
+  paymentId     String      @unique            
+  
+  status        OrderStatus @default(PENDING)
+
+  amount        Int         // 결제 금액 (원 단위, 서버 계산)
+  currency      String      @default("KRW")
+
+  orderName     String      //(결제창 표시용)
+
+  userId        String?     // 비회원이면 null
+  userEmail     String?
+
+  paidAt        DateTime?   // 결제 성공 시각
+  canceledAt    DateTime?
+
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+enum OrderStatus {
+  PENDING      // 주문 생성, 결제 시도 전/중
+  PAID         // PG 결제 성공 + 서버 검증 완료
+  FAILED       // 결제 실패
+  CANCELED     // 취소/환불
+}
