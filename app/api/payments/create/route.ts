@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     data: {
       paymentId,
       amount,
-      orderName: "샘플 주문",
+      orderName: items[0].title,
       status: "PENDING",
       userId: session?.user?.id,
       userEmail: session?.user?.email,

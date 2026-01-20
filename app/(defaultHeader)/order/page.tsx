@@ -1,36 +1,23 @@
 
 import { getCartAction } from "@/app/actions/cart";
-import dynamic from "next/dynamic";
-import CartListClient from "./_components/CartListClient";
-import Link from "next/link";
+import CartListClient from "../cart/_components/CartListClient";
+import AddreesCard from "@/app/components/AddressCard";
 
-const RecentItemListClientOnly = dynamic(
-  () => import("@/app/components/RecentItemList"),
-  { ssr: false }
-);
 
-export default async function CartPage() {
+export default async function OrderPage() {
 
   const cartList = await getCartAction();
   const totalPrice = cartList.reduce((prev, item) => prev + item.price * item.quantity * 0.9, 0);
   const deliveryFee = totalPrice > 100000 ? 0 : 3000;
-  if (cartList.length === 0)
-    return (
-      <div className="w-full">
-        <div className="flex flex-col gap-2 justify-center items-center w-full h-40">
-          <p className="font-semibold">장바구니에 담긴 상품이 없아요.</p>
-          <p className="text-xs text-gray-500">원하는 상품을 담아봐요</p>
-          <button className="text-white bg-blue-400 text-sm hover:bg-blue-500 px-4 py-1 rounded-2xl transition-colors duration-300 cursor-pointer">
-            상품 보러 가기
-          </button>
-        </div>
-        <div className="flex flex-col gap-2">
-          <RecentItemListClientOnly />
-        </div>
-      </div>
-    );
   return (
     <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2">
+        <div className="flex justify-between">
+          <p>배송지</p>
+          <p>배송지 변경</p>
+        </div>
+        <AddreesCard />
+      </div>
       <div className="bg-gray-100 p-4 flex flex-col gap-2">
         <CartListClient initialItems={cartList} />
       </div>
@@ -49,13 +36,9 @@ export default async function CartPage() {
           <p className="text-lg text-blue-400">{Number(totalPrice + deliveryFee).toLocaleString()}</p>
         </div>
       </div>
-      <div className="flex flex-col gap-2">
-        <RecentItemListClientOnly />
-      </div>
       <div className="fixed bottom-4 left-0 right-0 flex justify-center px-4 z-50">
-        <Link href={'/order'}
+        <button
           className="
-          text-center
       w-full max-w-xl
       py-2 rounded-2xl
       bg-blue-400 text-white
@@ -65,8 +48,8 @@ export default async function CartPage() {
     "
         >
           {Number(totalPrice + deliveryFee).toLocaleString()}원 구매하기
-        </Link>
+        </button>
       </div>
     </div>
-  );
+  )
 }
