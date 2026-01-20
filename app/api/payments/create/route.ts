@@ -1,12 +1,11 @@
 import {  ProductInCart } from "@/app/type";
-import { authOptions } from "@/lib/auth";
-import { getServerSession } from "next-auth";
+import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   const { items } = await req.json();
   const { prisma } = await import("@/lib/prisma");
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   //  금액은 클라에서 받지 말고 서버에서 계산(가격표/DB 기준)
   const amount = items.reduce((sum: number, it: ProductInCart) => sum + it.price * it.quantity, 0);
 

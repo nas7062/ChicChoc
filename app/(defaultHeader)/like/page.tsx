@@ -1,11 +1,12 @@
 export const dynamic = "force-dynamic";
 
 import ItemList from "@/app/components/ItemList";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/lib/auth";
+
 
 export default async function LikePage() {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
+
   if (!session?.user?.id) {
     return <div className="text-sm text-gray-500">로그인이 필요해요.</div>;
   }

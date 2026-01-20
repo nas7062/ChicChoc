@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import { addItemsToCart } from "@/lib/cart";
 import { CartOptionItem } from "@/app/components/BottomSheet";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/lib/auth";
+
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
     const userId = session?.user.id;
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

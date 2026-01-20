@@ -1,14 +1,13 @@
 "use server";
-import { authOptions } from "@/lib/auth";
 import { addItemsToCart } from "@/lib/cart";
-import { getServerSession } from "next-auth";
 import { CartOptionItem } from "../components/BottomSheet";
 import { NextResponse } from "next/server";
 import { ProductInCart } from "../type";
 import { revalidatePath } from "next/cache";
+import { auth } from "@/lib/auth";
 
 export async function addToCartAction(items: CartOptionItem[]) {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const userId = session?.user.id;
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -18,7 +17,7 @@ export async function addToCartAction(items: CartOptionItem[]) {
 
 export async function getCartAction(): Promise<ProductInCart[]> {
   const { prisma } = await import("@/lib/prisma");
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const userId = session?.user.id;
   if (!userId) return [];
 
@@ -51,7 +50,7 @@ export async function updateCartItemQtyAction(
 ) {
   const { prisma } = await import("@/lib/prisma");
 
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const userId = session?.user.id;
   if (!userId) throw new Error("Unauthorized");
   if (quantity < 1) throw new Error("Quantity must be >= 1");
@@ -68,7 +67,7 @@ export async function updateCartItemQtyAction(
 export async function removeCartItemAction(cartItemId: string) {
   const { prisma } = await import("@/lib/prisma");
 
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const userId = session?.user.id;
   if (!userId) throw new Error("Unauthorized");
 

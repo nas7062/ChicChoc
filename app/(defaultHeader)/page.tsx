@@ -1,13 +1,13 @@
 export const dynamic = "force-dynamic";
-import { getServerSession } from "next-auth";
+import { auth } from "@/lib/auth";
 import Category from "../components/Category";
 import ItemList from "../components/ItemList";
 import Banner from "./_components/Banner";
-import { authOptions } from "@/lib/auth";
+
 
 export default async function Home() {
   const { prisma } = await import("@/lib/prisma");
-  const session = await getServerSession(authOptions);
+  const session = await auth();
   const userId = session?.user?.id ?? null;
   const items = await prisma.product.findMany({
     where: { isActive: true },
