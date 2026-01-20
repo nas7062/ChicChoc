@@ -1,15 +1,12 @@
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
-
 import { NextResponse } from "next/server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 
 export async function GET() {
   const { prisma } = await import("@/lib/prisma");
-  const session = await getServerSession(authOptions);
-  console.log("session:", session);
-  console.log("userId:", session?.user?.id);
+  const session = await auth();
+  
   try {
     const items = await prisma.product.findMany({
       where: { isActive: true },

@@ -1,13 +1,10 @@
 
 import { getCartAction } from "@/app/actions/cart";
-import dynamic from "next/dynamic";
 import CartListClient from "./_components/CartListClient";
 import Link from "next/link";
+import RecentItemListClientOnly from "@/app/components/RecentItemListClientOnly";
 
-const RecentItemListClientOnly = dynamic(
-  () => import("@/app/components/RecentItemList"),
-  { ssr: false }
-);
+
 
 export default async function CartPage() {
 

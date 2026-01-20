@@ -1,66 +1,54 @@
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import CredentialsProvider from "next-auth/providers/credentials";
-import KakaoProvider from "next-auth/providers/kakao";
-import type { NextAuthOptions } from "next-auth";
+import NextAuth from "next-auth";
+import type { NextAuthConfig } from "next-auth";
+import Credentials from "next-auth/providers/credentials";
+import Kakao from "next-auth/providers/kakao";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
-import { JWT } from "next-auth/jwt";
 
-export const authOptions: NextAuthOptions = {
+export const authConfig = {
   adapter: PrismaAdapter(prisma),
-  session: {
-    strategy: "jwt",
-    maxAge: 60 * 30,
-  },
-  jwt: {
-    maxAge: 60 * 30,
-  },
+  session: { strategy: "jwt", maxAge: 60 * 30 },
+  jwt: { maxAge: 60 * 30 },
 
   providers: [
-    CredentialsProvider({
+    Credentials({
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials.password) return null;
-
+        const email = credentials?.email;
+        const password = credentials?.password;
+        if (typeof email !== "string" || typeof password !== "string") {
+          return null;
+        }
         const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
+          where: { email },
         });
-
         if (!user?.password) return null;
 
-        const isValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-
-        return isValid ? user : null;
+        const ok = await bcrypt.compare(password, user.password);
+        return ok ? user : null;
       },
     }),
 
-    KakaoProvider({
+    Kakao({
       clientId: process.env.KAKAO_CLIENT_ID!,
       clientSecret: process.env.KAKAO_CLIENT_SECRET!,
-      authorization: {
-        params: {
-          prompt: "select_account",
-        },
-      },
+      authorization: { params: { prompt: "select_account" } },
     }),
   ],
 
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider !== "kakao") return true;
-      if (!user.email) return true;
+      if (!user?.email) return true;
 
       const existingUser = await prisma.user.findUnique({
         where: { email: user.email },
       });
-
       if (!existingUser) return true;
 
       const linkedAccount = await prisma.account.findFirst({
@@ -88,22 +76,20 @@ export const authOptions: NextAuthOptions = {
 
       return true;
     },
+
     async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-      }
+      // user는 로그인 시점에만 들어오므로 그때만 id 주입
+      if (user) token.id = (user as any).id;
       return token;
     },
 
     async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.id as string;
-      }
+      if (session.user) session.user.id = token.id as string;
       return session;
     },
   },
 
-  pages: {
-    signIn: "/signin",
-  },
-};
+  pages: { signIn: "/signin" },
+} satisfies NextAuthConfig;
+
+export const { handlers, auth, signIn, signOut } = NextAuth(authConfig);

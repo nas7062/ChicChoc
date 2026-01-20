@@ -16,16 +16,11 @@ export default function EamilLoginPage() {
 
     setIsLoading(true);
     try {
-      const result = await signIn("credentials", {
+      await signIn("credentials", {
         email,
         password,
         callbackUrl: "/",
       });
-
-      if (result?.error) {
-        alert("이메일 또는 비밀번호가 올바르지 않습니다.");
-        return;
-      }
 
 
     } finally {

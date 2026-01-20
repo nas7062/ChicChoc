@@ -1,10 +1,6 @@
 export const dynamic = "force-dynamic";
 
-import NextAuth from "next-auth";
+import { handlers } from "@/lib/auth";
 
-const handler = async (...args: Parameters<typeof NextAuth>) => {
-  const { authOptions } = await import("@/lib/auth");
-  return NextAuth(authOptions)(...args);
-};
-
-export { handler as GET, handler as POST };
+export const GET = handlers.GET;
+export const POST = handlers.POST;
