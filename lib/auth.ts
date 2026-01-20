@@ -78,8 +78,7 @@ export const authConfig = {
     },
 
     async jwt({ token, user }) {
-      // user는 로그인 시점에만 들어오므로 그때만 id 주입
-      if (user) token.id = (user as any).id;
+      if (user) token.id = user.id;
       return token;
     },
 
