@@ -5,7 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { Plus } from "lucide-react"
 import Link from "next/link";
 
-export default async function Page() {
+export default async function AddressBookPage() {
   const session = await auth();
   const addresses = await prisma.address.findMany({
     where: { userId: session?.user.id },
@@ -31,6 +31,7 @@ export default async function Page() {
             address={address.address}
             phone={address.phone ?? ""}
             isDefault={address.isDefault}
+            isUpdate
           />
         ))
       )}
