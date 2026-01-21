@@ -2,7 +2,8 @@
 
 import { addAddress } from "@/app/actions/address";
 import InputField from "@/app/components/InputField";
-import { useActionState, useState } from "react";
+import { signOut } from "next-auth/react";
+import { useActionState, useEffect, useRef, useState } from "react";
 const initialState = { ok: false } as const;
 
 export default function Page() {
@@ -11,6 +12,16 @@ export default function Page() {
   const [phone, setPhone] = useState('')
   const [state, action, pending] = useActionState(addAddress, initialState);
 
+  const done = useRef(false);
+
+  useEffect(() => {
+    if (!state?.ok) return;
+    if (done.current) return;
+    done.current = true;
+
+    // 저장 성공하면 세션 종료 후 로그인으로
+    signOut({ callbackUrl: "/address-book" });
+  }, [state?.ok]);
   return (
     <form action={action}>
       <h2 className="text-center text-xl font-semibold">배송지 추가</h2>

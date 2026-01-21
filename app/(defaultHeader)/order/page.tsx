@@ -4,6 +4,7 @@ import CartListClient from "../cart/_components/CartListClient";
 import AddreesCard from "@/app/components/AddressCard";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import Link from "next/link";
 
 
 export default async function OrderPage() {
@@ -11,23 +12,32 @@ export default async function OrderPage() {
   const cartList = await getCartAction();
   const totalPrice = cartList.reduce((prev, item) => prev + item.price * item.quantity * 0.9, 0);
   const deliveryFee = totalPrice > 100000 ? 0 : 3000;
-  const addresses = await prisma.address.findMany({
-    where: { userId: session?.user.id, isDefault: true },
-    orderBy: [{ isDefault: "desc" }, { updatedAt: "desc" }],
+  const defaultAddress = await prisma.address.findFirst({
+    where: { userId: session!.user!.id, isDefault: true },
+    orderBy: { updatedAt: "desc" },
   });
+
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <div className="flex justify-between">
           <p>배송지</p>
-          <p>배송지 변경</p>
+          <Link href={'/address-book'}>배송지 변경</Link>
         </div>
-        <AddreesCard key={addresses[0].id}
-          id={addresses[0].id}
-          label={addresses[0].label ?? "배송지"}
-          address={addresses[0].address}
-          phone={addresses[0].phone ?? ""}
-          isDefault={addresses[0].isDefault} />
+        {defaultAddress ? (
+          <AddreesCard
+            id={defaultAddress.id}
+            label={defaultAddress.label ?? "배송지"}
+            address={defaultAddress.address}
+            phone={defaultAddress.phone ?? ""}
+            isDefault={defaultAddress.isDefault}
+          />
+        ) : (
+          <div className="rounded-xl bg-gray-50 p-8 text-sm text-center text-gray-500">
+            기본 배송지가 없습니다. 배송지를 추가해주세요.
+          </div>
+        )}
       </div>
       <div className="bg-gray-100 p-4 flex flex-col gap-2">
         <CartListClient initialItems={cartList} />
