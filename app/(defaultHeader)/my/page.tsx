@@ -1,36 +1,32 @@
 "use client";
 import RecentItemList from "@/app/components/RecentItemList";
-import { BadgeRussianRuble, List, LogOut, SquareChartGantt } from "lucide-react";
+import { BadgeRussianRuble, List, LogOut, SquareChartGantt, Truck } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-const MyList = [
-  { label: "주문 내역", icon: List },
-  { label: "리뷰", icon: SquareChartGantt },
-  { label: "포인트", icon: BadgeRussianRuble },
-  {
-    label: "로그아웃",
-    icon: LogOut,
-    action: "logout",
-  },
-];
 
+const MyList = [
+  { label: "주문 내역", icon: List, href: "/orders" },
+  { label: "리뷰", icon: SquareChartGantt, href: "/reviews" },
+  { label: "포인트", icon: BadgeRussianRuble, href: "/points" },
+  { label: "배송지 관리", icon: Truck, href: "/address-book" },
+  { label: "로그아웃", icon: LogOut, action: "logout" as const },
+];
 export default function MyPage() {
   const { data: session, status } = useSession();
+
+
   const router = useRouter();
   if (status === "loading") return null;
 
   const handleClick = async (item: (typeof MyList)[number]) => {
-    if (item.action !== "logout") return;
+    if ("action" in item && item.action === "logout") {
+      await signOut({ callbackUrl: "/auth/signin" });
+      return;
+    }
 
-    try {
-      // NextAuth 세션 종료
-      await signOut({
-        callbackUrl: "/auth/signin",
-      });
-
-    } catch (e) {
-      console.error("logout failed", e);
+    if ("href" in item && item.href) {
+      router.push(item.href);
     }
   };
 

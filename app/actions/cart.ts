@@ -74,6 +74,6 @@ export async function removeCartItemAction(cartItemId: string) {
   await prisma.cartItem.deleteMany({
     where: { id: cartItemId, cart: { userId } },
   });
-
+  
   revalidatePath("/cart");
 }
