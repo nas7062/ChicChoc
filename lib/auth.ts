@@ -78,15 +78,17 @@ export const authConfig = {
     },
 
     async jwt({ token, user }) {
-      if (user) {token.id = user.id;
-      token.phone = (user as any).phone ?? null;
+      if (user) {
+        token.id = user.id;
+        token.phone = user?.phone ?? null;
       }
       return token;
     },
 
     async session({ session, token }) {
-      if (session.user) {session.user.id = token.id as string;
-      session.user.phone = token.phone as string | null;
+      if (session.user) {
+        session.user.id = token.id as string;
+        session.user.phone = token.phone as string | null;
       }
       return session;
     },

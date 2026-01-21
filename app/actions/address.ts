@@ -8,7 +8,6 @@ type ActionState =
   | { ok: true; message: string }
   | { ok: false; fieldErrors?: Record<string, string>; formError?: string };
 
-const initialState: ActionState = { ok: false };
 
 export async function addAddress(
   prevState: ActionState,
@@ -19,11 +18,9 @@ export async function addAddress(
     if (!session?.user?.id) return { ok: false, formError: "로그인이 필요합니다." };
     const userId = session.user.id;
 
-    const label = formData.get("label");
-    const address = formData.get("address");
-    const phone = formData.get("phone");
-
-    // checkbox: 체크되면 "on" 또는 값이 들어오고, 아니면 null
+    const label = formData.get("label") as string;
+    const address = formData.get("address") as string;
+    const phone = formData.get("phone") as string;
     const isDefault = formData.get("isDefault") != null;
 
     const fieldErrors: Record<string, string> = {};
@@ -34,7 +31,7 @@ export async function addAddress(
     if (Object.keys(fieldErrors).length) return { ok: false, fieldErrors };
 
     // 기본배송지로 추가할 때는 기존 기본배송지 해제 후 생성
-    // (추가로: 첫 배송지는 자동 기본 처리)
+    // 첫 배송지는 자동 기본 처리
     const hasAny = await prisma.address.count({ where: { userId } });
 
     const makeDefault = isDefault || hasAny === 0;
@@ -50,9 +47,9 @@ export async function addAddress(
       await tx.address.create({
         data: {
           userId,
-          label: label.trim(),
-          address: address.trim(),
-          phone: phone.trim(),
+          label: label,
+          address: address,
+          phone: phone,
           isDefault: makeDefault,
         },
       });
