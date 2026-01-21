@@ -13,7 +13,7 @@ export async function proxy(req: NextRequest) {
   // =========================
   const customToken = req.cookies.get("access_token")?.value;
   const nextAuthToken =
-    req.cookies.get("next-auth.session-token")?.value ||
+    req.cookies.get("authjs.session-token")?.value ||
     req.cookies.get("__Secure-next-auth.session-token")?.value;
 
   // 둘 다 없으면 비로그인
@@ -61,5 +61,5 @@ export async function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/my", "/cart", "/like"],
+  matcher: ["/my/:path*", "/cart/:path*", "/like/:path*"],
 };

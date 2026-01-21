@@ -16,6 +16,7 @@ interface InputFieldProps {
   variant?: 'line' | 'box'; // input박스 유형
   timer?: React.ReactNode;
   placeholderStyle?: string;
+  name?: string | undefined;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -30,6 +31,8 @@ const InputField: React.FC<InputFieldProps> = ({
   variant = 'line',
   timer,
   placeholderStyle = '',
+
+  name
 }) => {
   const wrapperClass =
     variant === 'line' ? 'flex flex-col w-full gap-1' : 'flex flex-col gap-5 w-full';
@@ -65,6 +68,8 @@ const InputField: React.FC<InputFieldProps> = ({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
+
+          name={name}
           className={clsx(
             'flex-1 text-sm mt-1 outline-none placeholder:font-normal placeholder-[#A9B3C2]',
             variant === 'line' ? 'bg-transparent' : 'bg-white',
