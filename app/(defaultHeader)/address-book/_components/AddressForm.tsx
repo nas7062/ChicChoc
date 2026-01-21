@@ -39,7 +39,7 @@ export default function AddressForm(props: Props) {
       ? updateAddress.bind(null, props.addressId)
       : addAddress;
 
-  const [state, action, pending] = useActionState(actionFn as any, initialState);
+  const [state, action, pending] = useActionState(actionFn, initialState);
 
   // 성공 시 한번만 이동
   const done = useRef(false);
@@ -66,8 +66,8 @@ export default function AddressForm(props: Props) {
         onChange={(e) => setLabel(e.target.value)}
         placeholder="배송지명을 입력해주세요. (예 : 집, 회사)"
       />
-      {"fieldErrors" in (state as any) && (state as any)?.fieldErrors?.label && (
-        <p className="text-xs text-red-500">{(state as any).fieldErrors.label}</p>
+      {"fieldErrors" in (state) && (state)?.fieldErrors?.label && (
+        <p className="text-xs text-red-500">{(state).fieldErrors.label}</p>
       )}
 
       <InputField
@@ -78,10 +78,10 @@ export default function AddressForm(props: Props) {
         onChange={(e) => setAddress(e.target.value)}
         placeholder="건물명, 도로명 또는 지번 검색"
       />
-      {"fieldErrors" in (state as any) &&
-        (state as any)?.fieldErrors?.address && (
+      {"fieldErrors" in (state) &&
+        (state)?.fieldErrors?.address && (
           <p className="text-xs text-red-500">
-            {(state as any).fieldErrors.address}
+            {(state).fieldErrors.address}
           </p>
         )}
 
@@ -93,12 +93,12 @@ export default function AddressForm(props: Props) {
         onChange={(e) => setPhone(e.target.value)}
         placeholder="휴대폰 번호를 입력해주세요."
       />
-      {"fieldErrors" in (state as any) && (state as any)?.fieldErrors?.phone && (
-        <p className="text-xs text-red-500">{(state as any).fieldErrors.phone}</p>
+      {"fieldErrors" in (state) && (state)?.fieldErrors?.phone && (
+        <p className="text-xs text-red-500">{(state).fieldErrors.phone}</p>
       )}
 
-      {("formError" in (state as any) && (state as any)?.formError) ? (
-        <p className="text-xs text-red-500">{(state as any).formError}</p>
+      {("formError" in (state) && (state)?.formError) ? (
+        <p className="text-xs text-red-500">{(state).formError}</p>
       ) : null}
 
       <div className="flex items-center gap-2 pt-2">
