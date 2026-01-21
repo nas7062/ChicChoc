@@ -31,7 +31,7 @@ export default function BasicProfileForm() {
       </div>
       <div className="flex flex-col  ">
         <InputField variant="box" label="이름" name="name" placeholder="이름" value={name || ''} onChange={(e) => setName(e.target.value)} />
-        <InputField variant="box" label="휴대폰 번호" name="phone" placeholder="010 0000 0000" value={phone || ''} onChange={(e) => setPhone(e.target.value)} />
+        <InputField variant="box" label="휴대폰 번호" name="phone" placeholder="휴대폰 번호를 입력해주세요." value={phone || ''} onChange={(e) => setPhone(e.target.value)} />
 
 
         {state?.error && <p className="text-sm text-red-500">{state.error}</p>}
