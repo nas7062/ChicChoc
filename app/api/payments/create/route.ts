@@ -15,7 +15,7 @@ export async function POST(req: Request) {
   // TODO: DB에 order 생성 
   const order = await prisma.order.create({
     data: {
-      paymentId,
+      paymentId,  
       amount,
       orderName: items[0].title,
       currency: 'KRW',

@@ -5,6 +5,11 @@ export async function POST(req: Request) {
   try {
     const { paymentId } = await req.json();
     const { prisma } = await import("@/lib/prisma");
+    const order = await prisma.order.findUnique({ where: { paymentId } });
+    if (!order) {
+      return NextResponse.json({ message: "order not found" }, { status: 404 });
+    }
+
     const res = await fetch(`https://api.portone.io/payments/${encodeURIComponent(paymentId)}`, {
       headers: {
         Authorization: `PortOne ${process.env.PORTONE_API_SECRET!}`,
@@ -24,8 +29,20 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: "storeId mismatch" }, { status: 400 });
     }
 
-    //DB 주문을 PAID로 변경
-    await prisma.order.update({ where: { paymentId }, data: { status: "PAID" } })
+    // 트랜잭션으로 주문확정  카트삭제 같이
+    await prisma.$transaction(async (tx) => {
+      await tx.order.update({
+        where: { paymentId },
+        data: { status: "PAID", paidAt: new Date() },
+      });
+
+      if (order.userId) {
+        await tx.cart.deleteMany({
+          where: { userId: order.userId },
+        });
+      }
+    });
+
 
     return NextResponse.json({ ok: true });
   } catch (e) {
