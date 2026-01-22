@@ -5,6 +5,7 @@ import AddreesCard from "@/app/components/AddressCard";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import Link from "next/link";
+import CheckoutButton from "@/app/components/CheckOutButton";
 
 
 export default async function OrderPage() {
@@ -58,18 +59,10 @@ export default async function OrderPage() {
         </div>
       </div>
       <div className="fixed bottom-4 left-0 right-0 flex justify-center px-4 z-50">
-        <button
-          className="
-      w-full max-w-xl
-      py-2 rounded-2xl
-      bg-blue-400 text-white
-      hover:bg-blue-500
-      transition-colors duration-300
-      cursor-pointer
-    "
+        <CheckoutButton cartList={cartList}
         >
           {Number(totalPrice + deliveryFee).toLocaleString()}원 구매하기
-        </button>
+        </CheckoutButton>
       </div>
     </div>
   )

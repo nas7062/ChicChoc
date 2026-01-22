@@ -1,25 +1,30 @@
 "use client";
 
 import * as PortOne from "@portone/browser-sdk/v2";
-
-export default function CheckoutButton() {
+import { ReactNode } from "react";
+import { ProductInCart } from "../type";
+import { redirect } from "next/navigation";
+interface props {
+  children?: ReactNode;
+  cartList?: ProductInCart[]
+}
+export default function CheckoutButton({ children, cartList }: props) {
   const onPay = async () => {
     // 1) 서버에 주문 생성 요청
     const created = await fetch("/api/payments/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        items: [{ price: 19900, qty: 1 }],
+        items: cartList
       }),
     }).then((r) => r.json());
 
     const { paymentId, amount, currency } = created;
 
-    // 2) 결제창 호출
     const res = await PortOne.requestPayment({
       storeId: process.env.NEXT_PUBLIC_PORTONE_STORE_ID!,
       paymentId,
-      orderName: "샘플 주문",
+      orderName: "결제 목록",
       totalAmount: amount,
       currency,
       channelKey: process.env.NEXT_PUBLIC_CANNEL_ID,
@@ -39,9 +44,19 @@ export default function CheckoutButton() {
       body: JSON.stringify({ paymentId }),
     });
 
-    if (verify.ok) alert("결제 완료(서버 검증 OK)!");
-    else alert("결제는 진행됐지만 서버 검증 실패(주문 확정 보류)");
+    if (verify.ok) {
+      alert("결제 완료!");
+      redirect('/auth/succeess');
+    }
+    else alert("결제는 진행됐지만 서버 검증 실패");
   };
 
-  return <button onClick={onPay}>결제하기</button>;
+  return <button className="
+  w-full max-w-xl
+  py-2 rounded-2xl
+  bg-blue-400 text-white
+  hover:bg-blue-500
+  transition-colors duration-300
+  cursor-pointer
+" onClick={onPay}>{children}</button>;
 }
