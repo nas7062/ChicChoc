@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { deleteAddress } from "../actions/address";
+import { DeleteModal } from "./DeleteModal";
 
 interface props {
   id?: string;
@@ -22,8 +23,6 @@ export default function AddreesCard({ id, label, address, phone, isDefault, isUp
 
   const handleDelete = () => {
     if (!id) return;
-    if (!confirm("배송지를 삭제할까요?")) return;
-
     startTransition(async () => {
       const res = await deleteAddress(id);
       if (res.ok) {
@@ -42,7 +41,19 @@ export default function AddreesCard({ id, label, address, phone, isDefault, isUp
       <p>{phone}</p>
       {isUpdate && id && <div className="flex gap-2 ">
         <button onClick={() => router.push(`/address-book/edit/${id}`)} className="text-gray-500 hover:text-gray-700 transition-colors duration-200 cursor-pointer">수정</button>
-        <button className="text-gray-500 hover:text-gray-700 transition-colors duration-200 cursor-pointer">삭제</button>
+        <DeleteModal
+          title="배송지를 삭제할까요?"
+          description="삭제하면 되돌릴 수 없어요."
+          confirmText={pending ? "삭제 중..." : "삭제"}
+          cancelText="취소"
+          disabled={pending}
+          onConfirm={handleDelete}
+          trigger={
+            <button className="text-gray-500 hover:text-red-500 transition-colors duration-200 cursor-pointer">
+              삭제
+            </button>
+          }
+        />
       </div>
       }
     </div >
