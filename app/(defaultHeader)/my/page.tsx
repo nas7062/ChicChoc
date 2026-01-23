@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 
 const MyList = [
-  { label: "주문 내역", icon: List, href: "/orders" },
+  { label: "주문 내역", icon: List, href: "/orderList" },
   { label: "리뷰", icon: SquareChartGantt, href: "/reviews" },
   { label: "포인트", icon: BadgeRussianRuble, href: "/points" },
   { label: "배송지 관리", icon: Truck, href: "/address-book" },

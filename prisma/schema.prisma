@@ -95,6 +95,7 @@ model Product {
   categoryId   Int
   category     Category      @relation(fields: [categoryId], references: [id])
   cartItems    CartItem[] 
+  orderItems OrderItem[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -184,8 +185,27 @@ model Order {
 
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+
+  items         OrderItem[]
 }
 
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId  String
+  productId Int
+
+  quantity Int
+  price    Int
+
+  size     String 
+  color    String  
+
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  order   Order   @relation(fields: [orderId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
 enum OrderStatus {
   PENDING      // 주문 생성, 결제 시도 전/중
   PAID         // PG 결제 성공 + 서버 검증 완료

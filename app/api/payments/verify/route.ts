@@ -31,16 +31,55 @@ export async function POST(req: Request) {
 
     // 트랜잭션으로 주문확정  카트삭제 같이
     await prisma.$transaction(async (tx) => {
-      await tx.order.update({
-        where: { paymentId },
-        data: { status: "PAID", paidAt: new Date() },
+      //  장바구니 아이템 가져오기
+      const cartItems = order.userId
+        ? await tx.cartItem.findMany({
+          where: {
+            cart: { userId: order.userId },
+          },
+          include: {
+            product: true,
+          },
+        })
+        : [];
+
+      if (cartItems.length === 0) {
+        throw new Error("cart is empty");
+      }
+
+      //  OrderItem 생성 
+      await tx.orderItem.createMany({
+        data: cartItems.map((item) => ({
+          orderId: order.id,
+          productId: item.productId,
+
+          quantity: item.quantity,
+          size: item.size,
+          color: item.color,
+
+          price: item.product.price, // 주문 당시 가격 스냅샷
+        })),
       });
 
-      if (order.userId) {
-        await tx.cart.deleteMany({
-          where: { userId: order.userId },
-        });
-      }
+      // 주문 상태 확정
+      await tx.order.update({
+        where: { id: order.id },
+        data: {
+          status: "PAID",
+          paidAt: new Date(),
+        },
+      });
+
+      //  장바구니 삭제
+      await tx.cartItem.deleteMany({
+        where: {
+          cart: { userId: order.userId ?? undefined },
+        },
+      });
+
+      await tx.cart.deleteMany({
+        where: { userId: order.userId ?? undefined },
+      });
     });
 
 
