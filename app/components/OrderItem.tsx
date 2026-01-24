@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { Product } from "../type";
+import { ChevronRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 interface OrderItem {
   id: string;
   orderId: string;
@@ -18,15 +20,24 @@ export type OrderItemWithProduct = OrderItem & {
 };
 interface Props {
   item: OrderItemWithProduct;
+  paymentId: string;
 }
 
-export default function OrderItem({ item }: Props) {
+export default function OrderItem({ item, paymentId }: Props) {
+  const router = useRouter();
   const formattedDate = item.createdAt
     .toLocaleDateString("ko-KR")  // 로케일에 맞는 기본 날짜 형식 (YYYY-MM-DD)
     .replaceAll("-", " ");
+  console.log(item);
   return (
-    <div className="flex flex-col gap-4 px-4">
-      <h2 className="font-semibold">{formattedDate}</h2>
+    <div className="flex flex-col gap-4 p-2 border border-gray-100 shadow-sm ">
+      <div className="flex justify-between">
+        <h2 className="font-semibold">{formattedDate}</h2>
+        <button className="flex items-center cursor-pointer" onClick={() => router.push(`/order/${paymentId}`)}>
+          <p className="text-sm">주문상세 </p>
+          <ChevronRight className="text-gray-500" />
+        </button>
+      </div>
       <div className="flex gap-2">
         <Image src={"/bannerImage1.jpg"} alt="아이템" width={60} height={60} className="aspect-square rounded-md" />
         <div className="flex flex-col gap-1 relative flex-1">
@@ -42,7 +53,7 @@ export default function OrderItem({ item }: Props) {
       </div>
       <div className="bg-gray-200 w-full flex justify-between px-2 py-1 items-center">
         <p className="text-xs">COLOR : {item.color} / SIZE : {item.size} </p>
-        <button className="bg-white px-2 py-1 text-xs rounded-md cursor-pointer hover:bg-gray-100 transition-colors duration-300">옵션 변경</button>
+
       </div>
 
     </div>

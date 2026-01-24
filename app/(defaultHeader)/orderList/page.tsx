@@ -32,7 +32,7 @@ export default async function OrderListPage() {
         <div className="flex flex-col gap-4">
           {orders.map((order) =>
             order.items.map((item) => (
-              <OrderItem key={item.id} item={item} />
+              <OrderItem key={item.id} item={item} paymentId={orders[0].paymentId} />
             ))
           )}
         </div>

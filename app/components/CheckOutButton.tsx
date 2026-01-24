@@ -46,7 +46,7 @@ export default function CheckoutButton({ children, cartList }: props) {
 
     if (verify.ok) {
       alert("결제 완료!");
-      redirect('/auth/succeess');
+      redirect(`/order/${paymentId}`);
     }
     else alert("결제는 진행됐지만 서버 검증 실패");
   };
