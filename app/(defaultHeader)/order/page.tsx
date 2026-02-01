@@ -59,7 +59,7 @@ export default async function OrderPage() {
         </div>
       </div>
       <div className="fixed bottom-4 left-0 right-0 flex justify-center px-4 z-50">
-        <CheckoutButton cartList={cartList}
+        <CheckoutButton cartList={cartList} selectedId={defaultAddress?.id}
         >
           {Number(totalPrice + deliveryFee).toLocaleString()}원 구매하기
         </CheckoutButton>

@@ -3,7 +3,7 @@ import { auth } from "@/lib/auth";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const { items } = await req.json();
+  const { items, selectedId } = await req.json();
   const { prisma } = await import("@/lib/prisma");
   const session = await auth();
   //  금액은 클라에서 받지 말고 서버에서 계산
@@ -15,13 +15,14 @@ export async function POST(req: Request) {
   // TODO: DB에 order 생성 
   const order = await prisma.order.create({
     data: {
-      paymentId,  
+      paymentId,
       amount,
       orderName: items[0].title,
       currency: 'KRW',
       status: "PENDING",
       userId: session?.user?.id,
       userEmail: session?.user?.email,
+      selectedId
     },
   });
 

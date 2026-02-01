@@ -7,15 +7,17 @@ import { redirect } from "next/navigation";
 interface props {
   children?: ReactNode;
   cartList?: ProductInCart[]
+  selectedId?: string;
 }
-export default function CheckoutButton({ children, cartList }: props) {
+export default function CheckoutButton({ children, cartList, selectedId }: props) {
   const onPay = async () => {
     // 1) 서버에 주문 생성 요청
     const created = await fetch("/api/payments/create", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        items: cartList
+        items: cartList,
+        selectedId,
       }),
     }).then((r) => r.json());
 

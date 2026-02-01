@@ -24,6 +24,7 @@ interface Props {
 }
 
 export default function OrderItem({ item, paymentId }: Props) {
+  console.log(paymentId)
   const router = useRouter();
   const formattedDate = item.createdAt
     .toLocaleDateString("ko-KR")  // 로케일에 맞는 기본 날짜 형식 (YYYY-MM-DD)
