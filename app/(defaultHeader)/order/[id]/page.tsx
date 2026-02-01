@@ -1,7 +1,6 @@
 // app/order/[id]/page.tsx
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import { notFound } from "next/navigation";  // notFound import
 
 interface Props {
   params: Promise<{ id: string }>;  // params를 Promise로 처리
@@ -14,7 +13,6 @@ export default async function OrderDetailPage({ params }: Props) {
   const { id: idParam } = await params;  // Promise에서 id를 가져옵니다.
   const paymentId = idParam;  // paymentId로 사용
 
-  console.log("Order Payment ID:", paymentId);  // paymentId 값 확인
 
   // paymentId로 주문 조회
   const orderWithAddress = await prisma.order.findUnique({

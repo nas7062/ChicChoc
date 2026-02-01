@@ -19,25 +19,13 @@ export type OrderItemWithProduct = OrderItem & {
   product: Product;
 };
 interface Props {
-  item: OrderItemWithProduct;
-  paymentId: string;
+  item: OrderItemWithProduct
 }
 
-export default function OrderItem({ item, paymentId }: Props) {
-  console.log(paymentId)
-  const router = useRouter();
-  const formattedDate = item.createdAt
-    .toLocaleDateString("ko-KR")  // 로케일에 맞는 기본 날짜 형식 (YYYY-MM-DD)
-    .replaceAll("-", " ");
-  console.log(item);
+export default function OrderItem({ item }: Props) {
   return (
-    <div className="flex flex-col gap-4 p-2 border border-gray-100 shadow-sm ">
+    <div className="flex flex-col gap-4 p-2 border border-gray-200 rounded-lg  ">
       <div className="flex justify-between">
-        <h2 className="font-semibold">{formattedDate}</h2>
-        <button className="flex items-center cursor-pointer" onClick={() => router.push(`/order/${paymentId}`)}>
-          <p className="text-sm">주문상세 </p>
-          <ChevronRight className="text-gray-500" />
-        </button>
       </div>
       <div className="flex gap-2">
         <Image src={"/bannerImage1.jpg"} alt="아이템" width={60} height={60} className="aspect-square rounded-md" />
