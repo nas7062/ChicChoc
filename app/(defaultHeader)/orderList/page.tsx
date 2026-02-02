@@ -4,13 +4,33 @@ import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { Search } from "lucide-react";
 import OrderDetailBtn from "./_components/orderDetailBtn";
+import OrderSearchInput from "./_components/OrderSearchInput";
 
-export default async function OrderListPage() {
+export default async function OrderListPage({
+  searchParams,
+}: {
+  searchParams: { keyword?: string };
+}) {
   const session = await auth();
-
+  const keyword = searchParams.keyword ?? "";
   const orders = await prisma.order.findMany({
-    where: { userId: session?.user.id, status: 'PAID' },
-    orderBy: [{ createdAt: "desc" }, { updatedAt: "desc" }],
+    where: {
+      userId: session?.user.id,
+      status: "PAID",
+      ...(keyword && {
+        items: {
+          some: {
+            product: {
+              title: {
+                contains: keyword,
+                mode: "insensitive",
+              },
+            },
+          },
+        },
+      }),
+    },
+    orderBy: [{ createdAt: "desc" }],
     include: {
       items: {
         include: {
@@ -19,17 +39,10 @@ export default async function OrderListPage() {
       },
     },
   });
-  console.log(orders)
+
   return (
     <div className="flex flex-col gap-4">
-      <div className="relative">
-        <input
-          type="search"
-          name="keyword"
-          placeholder="구매한 상품을 검색해보세요"
-          className="border border-gray-300 rounded-xl w-full h-8 pl-10 pr-4 text-sm" />
-        <Search className="absolute left-2 top-1.5 text-gray-500" size={20} />
-      </div>
+      <OrderSearchInput />
       <div>
         <div className="flex flex-col gap-4">
           {orders.map((order) => (
