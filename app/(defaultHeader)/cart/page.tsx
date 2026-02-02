@@ -11,6 +11,7 @@ export default async function CartPage() {
   const cartList = await getCartAction();
   const totalPrice = cartList.reduce((prev, item) => prev + item.price * item.quantity * 0.9, 0);
   const deliveryFee = totalPrice > 100000 ? 0 : 3000;
+  
   if (cartList.length === 0)
     return (
       <div className="w-full">
