@@ -1,5 +1,6 @@
 "use client";
 import Header from "@/app/components/Header";
+import { UserRound } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export default function DefaultHeaderLayout({
@@ -29,7 +30,7 @@ export default function DefaultHeaderLayout({
   const label = getPageLabel(pathname);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 relative">
       <Header
         label={label}
         isMy={pathname === "/my"}
@@ -38,7 +39,9 @@ export default function DefaultHeaderLayout({
         noBtn={label === "로그인" || label === "회원가입" || pathname === "/auth/email-login"}
       />
       {children}
-
+      <button className="fixed bottom-4 right-4 p-2 rounded-full bg-gray-100 cursor-pointer">
+        <UserRound className="h-10 w-10" />
+      </button>
     </div>
   );
 }

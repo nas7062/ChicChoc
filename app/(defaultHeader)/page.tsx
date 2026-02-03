@@ -29,5 +29,6 @@ export default async function Home() {
     <Banner />
     <Category />
     <ItemList items={mapped} />
+
   </div>;
 }
